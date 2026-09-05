@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Análisis del movimiento · Patrones primarios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#E7EAE4;
+  --surface:#F7F8F5;
+  --surface-2:#EFF1EC;
+  --ink:#1B2A28;
+  --ink-soft:#4E5F5C;
+  --ink-faint:#788683;
+  --muscle:#9C3A38;
+  --axis:#356878;
+  --ochre:#A9761B;
+  --rule:#C9CFC5;
+  --rule-soft:#DDE1D8;
+
+  --f-display:"Bitter",Georgia,"Times New Roman",serif;
+  --f-body:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+
+  --t-xs:0.78rem;
+  --t-s:0.875rem;
+  --t-b:1rem;
+  --t-m:1.25rem;
+  --t-l:1.563rem;
+  --t-xl:1.953rem;
+  --t-2xl:2.441rem;
+  --t-3xl:3.052rem;
+}
+
+*{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--f-body);
+  font-size:var(--t-b);
+  line-height:1.6;
+  font-feature-settings:"kern","liga";
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px;}
+
+/* ---------- cabecera ---------- */
+.top{padding:72px 0 40px;border-bottom:1px solid var(--rule);}
+.top h1{
+  font-family:var(--f-display);
+  font-weight:700;
+  font-size:var(--t-3xl);
+  line-height:1.05;
+  letter-spacing:-0.02em;
+  margin:0 0 18px;
+  max-width:16ch;
+}
+.top .lede{
+  font-size:var(--t-m);
+  line-height:1.5;
+  color:var(--ink-soft);
+  max-width:62ch;
+  margin:0 0 20px;
+}
+.course{
+  font-size:var(--t-s);
+  color:var(--ink-faint);
+  display:flex;
+  gap:20px;
+  flex-wrap:wrap;
+}
+.course span{border-left:2px solid var(--rule);padding-left:10px;}
+
+/* ---------- mapa de patrones ---------- */
+.map{padding:44px 0 0;}
+.map-intro{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:24px;
+  flex-wrap:wrap;
+  margin-bottom:24px;
+}
+.map-intro h2{
+  font-family:var(--f-display);
+  font-weight:600;
+  font-size:var(--t-l);
+  margin:0;
+  letter-spacing:-0.01em;
+}
+.map-intro p{margin:0;font-size:var(--t-s);color:var(--ink-faint);max-width:44ch;}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1px;
+  background:var(--rule);
+  border:1px solid var(--rule);
+}
+.tile{
+  background:var(--surface);
+  border:0;
+  padding:22px 18px 18px;
+  text-align:left;
+  font:inherit;
+  color:inherit;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  min-height:158px;
+  transition:background .16s ease;
+}
+.tile:hover{background:var(--surface-2);}
+.tile:focus-visible{outline:2px solid var(--axis);outline-offset:-3px;}
+.tile[aria-selected="true"]{background:var(--ink);color:var(--surface);}
+.tile[aria-selected="true"] .tile-sub{color:#A9B8B4;}
+.tile[aria-selected="true"] svg{stroke:var(--surface);}
+.tile[aria-selected="true"] .vec{stroke:#E0705E;}
+.tile svg{stroke:var(--ink);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;}
+.tile .vec{stroke:var(--muscle);stroke-width:2;}
+.tile .joint{fill:var(--ink);stroke:none;}
+.tile[aria-selected="true"] .joint{fill:var(--surface);}
+.tile-name{
+  font-family:var(--f-display);
+  font-weight:600;
+  font-size:var(--t-b);
+  line-height:1.25;
+}
+.tile-sub{font-size:var(--t-xs);color:var(--ink-faint);line-height:1.4;margin-top:3px;}
+
+/* ---------- ficha ---------- */
+.ficha{margin:0 0 64px;background:var(--surface);border:1px solid var(--rule);border-top:0;}
+.ficha-head{padding:34px 32px 0;}
+.ficha-head h3{
+  font-family:var(--f-display);
+  font-weight:700;
+  font-size:var(--t-2xl);
+  letter-spacing:-0.02em;
+  margin:0 0 12px;
+  line-height:1.1;
+}
+.ficha-def{font-size:var(--t-m);line-height:1.55;color:var(--ink-soft);max-width:66ch;margin:0 0 16px;}
+.chain{
+  display:inline-block;
+  font-size:var(--t-xs);
+  color:var(--axis);
+  border:1px solid var(--axis);
+  padding:3px 10px;
+  margin-bottom:24px;
+}
+
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--rule);padding:0 32px;flex-wrap:wrap;}
+.tab{
+  background:none;border:0;font:inherit;color:var(--ink-faint);
+  padding:11px 0;margin-right:28px;cursor:pointer;
+  font-size:var(--t-s);font-weight:500;
+  border-bottom:2px solid transparent;
+  margin-bottom:-1px;
+}
+.tab:hover{color:var(--ink);}
+.tab:focus-visible{outline:2px solid var(--axis);outline-offset:2px;}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--muscle);}
+.panel{padding:32px;}
+.panel h4{
+  font-family:var(--f-body);
+  font-size:var(--t-s);
+  font-weight:600;
+  color:var(--ink-faint);
+  margin:0 0 10px;
+}
+.panel > *:last-child{margin-bottom:0;}
+
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:36px;margin-bottom:36px;}
+.cols ul{margin:0;padding-left:0;list-style:none;}
+.cols li{
+  font-size:var(--t-s);line-height:1.5;padding:8px 0;
+  border-top:1px solid var(--rule-soft);
+}
+.cols li:first-child{border-top:1px solid var(--rule);}
+
+/* músculos por rol */
+.roles{display:flex;flex-wrap:wrap;gap:8px;}
+.m{font-size:var(--t-s);padding:4px 11px;border:1px solid;line-height:1.4;}
+.m.agonista{color:var(--muscle);border-color:var(--muscle);background:rgba(156,58,56,.05);}
+.m.sinergista{color:var(--ochre);border-color:var(--ochre);background:rgba(169,118,27,.06);}
+.m.estabilizador{color:var(--axis);border-color:var(--axis);background:rgba(53,104,120,.05);}
+.leyenda{display:flex;gap:22px;flex-wrap:wrap;font-size:var(--t-xs);color:var(--ink-faint);margin-top:16px;}
+.leyenda i{font-style:normal;display:inline-block;width:9px;height:9px;margin-right:6px;}
+
+/* fases: secuencia real, por eso van numeradas */
+.fase{
+  display:grid;grid-template-columns:38px 1fr;gap:20px;
+  padding:18px 0;border-top:1px solid var(--rule-soft);
+}
+.fase:first-of-type{border-top:1px solid var(--rule);}
+.fase-n{
+  font-family:var(--f-display);font-weight:600;font-size:var(--t-m);
+  color:var(--muscle);line-height:1.2;
+}
+.fase-name{font-weight:600;font-size:var(--t-b);margin:0 0 3px;}
+.fase-c{font-size:var(--t-xs);color:var(--axis);margin:0 0 6px;}
+.fase-d{font-size:var(--t-s);color:var(--ink-soft);margin:0;max-width:70ch;}
+
+/* checklist ejecución */
+.check{list-style:none;padding:0;margin:0;}
+.check li{
+  font-size:var(--t-s);line-height:1.55;padding:11px 0 11px 26px;
+  border-top:1px solid var(--rule-soft);position:relative;max-width:76ch;
+}
+.check li:first-child{border-top:1px solid var(--rule);}
+.check li::before{
+  content:"";position:absolute;left:2px;top:19px;
+  width:9px;height:9px;border:1.5px solid var(--axis);
+}
+
+/* errores: error → causa → corrección */
+.err-head,.err{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;}
+.err-head{
+  font-size:var(--t-xs);color:var(--ink-faint);
+  padding-bottom:8px;border-bottom:1px solid var(--rule);
+}
+.err{padding:16px 0;border-bottom:1px solid var(--rule-soft);font-size:var(--t-s);line-height:1.5;}
+.err b{font-weight:600;color:var(--muscle);display:block;}
+.err .causa{color:var(--ink-soft);}
+.err .causa::before{content:"↳ ";color:var(--ink-faint);}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:40px;}
+.two ol{margin:0;padding-left:20px;}
+.two ol li{font-size:var(--t-s);line-height:1.5;padding:6px 0;}
+.two ul{margin:0;padding-left:0;list-style:none;}
+.two ul li{font-size:var(--t-s);line-height:1.5;padding:8px 0;border-top:1px solid var(--rule-soft);}
+.two ul li:first-child{border-top:1px solid var(--rule);}
+
+/* ---------- ejercicios ---------- */
+.ejer{padding:8px 0 72px;}
+.ejer > h2{
+  font-family:var(--f-display);font-weight:600;font-size:var(--t-l);
+  margin:0 0 6px;letter-spacing:-0.01em;
+}
+.ejer > p.sub{font-size:var(--t-s);color:var(--ink-faint);margin:0 0 26px;max-width:60ch;}
+.ex{background:var(--surface);border:1px solid var(--rule);margin-bottom:16px;}
+.ex-btn{
+  width:100%;background:none;border:0;font:inherit;color:inherit;
+  padding:24px 28px;text-align:left;cursor:pointer;
+  display:flex;justify-content:space-between;align-items:center;gap:20px;
+}
+.ex-btn:hover{background:var(--surface-2);}
+.ex-btn:focus-visible{outline:2px solid var(--axis);outline-offset:-3px;}
+.ex-t{font-family:var(--f-display);font-weight:600;font-size:var(--t-m);margin:0 0 5px;}
+.ex-p{font-size:var(--t-xs);color:var(--ink-faint);margin:0;}
+.ex-sign{font-size:var(--t-l);color:var(--ink-faint);line-height:1;flex-shrink:0;}
+.ex-body{padding:0 28px 28px;display:none;}
+.ex[data-open="true"] .ex-body{display:block;}
+.ex[data-open="true"] .ex-sign{color:var(--muscle);}
+.ex-body h4{margin-top:28px;}
+.ex-body h4:first-child{margin-top:0;}
+.claim{
+  font-family:var(--f-display);font-size:var(--t-m);line-height:1.45;
+  color:var(--ink);border-left:2px solid var(--muscle);
+  padding-left:18px;margin:0 0 28px;max-width:60ch;font-weight:500;
+}
+
+/* ---------- fases del proyecto ---------- */
+.plan{border-top:1px solid var(--rule);padding:44px 0 80px;}
+.plan h2{font-family:var(--f-display);font-weight:600;font-size:var(--t-m);margin:0 0 22px;}
+.plan-row{
+  display:grid;grid-template-columns:110px 1fr;gap:24px;
+  padding:16px 0;border-top:1px solid var(--rule-soft);font-size:var(--t-s);
+}
+.plan-row:first-of-type{border-top:1px solid var(--rule);}
+.plan-row .f{font-weight:600;}
+.plan-row.done .f{color:var(--muscle);}
+.plan-row.done .f::after{content:" · lista";font-weight:400;color:var(--ink-faint);}
+.plan-row p{margin:0;color:var(--ink-soft);max-width:70ch;}
+
+@media (max-width:900px){
+  .grid{grid-template-columns:repeat(2,1fr);}
+  .cols,.err-head,.err{grid-template-columns:1fr;gap:8px;}
+  .err-head{display:none;}
+  .err b{margin-bottom:2px;}
+  .err{padding:14px 0;gap:4px;}
+  .two{grid-template-columns:1fr;gap:28px;}
+  .top{padding:44px 0 30px;}
+  .top h1{font-size:var(--t-2xl);}
+  .wrap{padding:0 18px;}
+  .ficha-head,.tabs,.panel{padding-left:20px;padding-right:20px;}
+  .ex-btn,.ex-body{padding-left:20px;padding-right:20px;}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important;}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <h1>Todo movimiento funcional es una suma de patrones</h1>
+    <p class="lede">Ocho patrones primarios explican prácticamente cualquier gesto que hace un paciente. Aprende a descomponerlos y podrás analizar un ejercicio, detectar el error y deducir qué déficit lo causa.</p>
+    <div class="course">
+      <span>Fisioterapia · Unizar</span>
+      <span>Análisis del movimiento</span>
+      <span>Fase 1 de 4</span>
+    </div>
+  </div>
+</header>
+
+<section class="map">
+  <div class="wrap">
+    <div class="map-intro">
+      <h2>Los ocho patrones</h2>
+      <p>Selecciona uno para abrir su ficha completa.</p>
+    </div>
+    <div class="grid" id="grid" role="tablist" aria-label="Patrones primarios"></div>
+  </div>
+</section>
+
+<section class="wrap">
+  <article class="ficha" id="ficha"></article>
+</section>
+
+<section class="ejer">
+  <div class="wrap">
+    <h2>Ejercicios desglosados</h2>
+    <p class="sub">Aquí se aplica todo lo anterior: se toma un ejercicio concreto, se identifican los patrones que lo componen y se enumera qué hace falta para ejecutarlo bien.</p>
+    <div id="ejercicios"></div>
+  </div>
+</section>
+
+<section class="plan">
+  <div class="wrap">
+    <h2>Desarrollo del proyecto</h2>
+    <div class="plan-row done"><div class="f">Fase 1</div><p>Los ocho patrones primarios con ficha completa, más dos ejercicios desglosados que demuestran el módulo de aplicación.</p></div>
+    <div class="plan-row"><div class="f">Fase 2</div><p>Ampliar el catálogo de ejercicios: dominada, peso muerto rumano, zancada búlgara, plancha lateral, step-up. Y el catálogo paralelo de AVD equivalentes.</p></div>
+    <div class="plan-row"><div class="f">Fase 3</div><p>Módulo de autoevaluación: el alumno ve una ejecución, identifica el error observable y elige la causa probable entre movilidad, control o fuerza.</p></div>
+    <div class="plan-row"><div class="f">Fase 4</div><p>Vincular cada requisito con su prueba de valoración: test de lunge, elevación de pierna recta, Trendelenburg, sit-to-rise, escala de sentadilla.</p></div>
+  </div>
+</section>
+
+<script>
+const G = {
+  empuje:'<svg viewBox="0 0 64 64" width="46" height="46"><circle class="joint" cx="24" cy="14" r="3"/><path d="M24 18 L24 40 M24 40 L18 54 M24 40 L30 54"/><path d="M24 24 L36 24"/><path class="vec" d="M40 24 L54 24 M48 19 L54 24 L48 29"/></svg>',
+  traccion:'<svg viewBox="0 0 64 64" width="46" height="46"><circle class="joint" cx="40" cy="14" r="3"/><path d="M40 18 L40 40 M40 40 L34 54 M40 40 L46 54"/><path d="M40 24 L28 24"/><path class="vec" d="M24 24 L10 24 M16 19 L10 24 L16 29"/></svg>',
+  sentadilla:'<svg viewBox="0 0 64 64" width="46" height="46"><circle class="joint" cx="26" cy="16" r="3"/><path d="M26 20 L26 34 L40 40 L36 54"/><circle class="joint" cx="26" cy="34" r="2.4"/><circle class="joint" cx="40" cy="40" r="2.4"/><path class="vec" d="M12 46 L12 20 M7 26 L12 20 L17 26"/></svg>',
+  bisagra:'<svg viewBox="0 0 64 64" width="46" height="46"><circle class="joint" cx="14" cy="24" r="3"/><path d="M17 25 L34 33"/><circle class="joint" cx="34" cy="33" r="3"/><path d="M34 33 L36 54"/><path class="vec" d="M22 14 A22 22 0 0 1 44 30"/><path class="vec" d="M39 26 L44 31 L39 34"/></svg>',
+  zancada:'<svg viewBox="0 0 64 64" width="46" height="46"><circle class="joint" cx="30" cy="14" r="3"/><path d="M30 18 L30 32"/><circle class="joint" cx="30" cy="32" r="2.4"/><path d="M30 32 L16 44 L16 54 M30 32 L44 42 L46 54"/><path class="vec" d="M8 34 L24 34"/></svg>',
+  marcha:'<svg viewBox="0 0 64 64" width="46" height="46"><circle class="joint" cx="20" cy="16" r="2.6"/><path d="M20 19 L20 34 L13 50 M20 34 L27 50"/><circle class="joint" cx="42" cy="16" r="2.6"/><path d="M42 19 L42 34 L36 50 M42 34 L50 46"/><path class="vec" d="M10 58 L54 58 M48 54 L54 58 L48 62"/></svg>',
+  rotacion:'<svg viewBox="0 0 64 64" width="46" height="46"><path d="M32 8 L32 56"/><circle class="joint" cx="32" cy="20" r="3"/><path d="M18 26 L46 20"/><path d="M20 44 L44 44"/><path class="vec" d="M14 32 A20 12 0 0 0 50 32"/><path class="vec" d="M45 27 L50 33 L44 35"/></svg>',
+  suelo:'<svg viewBox="0 0 64 64" width="46" height="46"><path d="M8 54 L22 54"/><circle class="joint" cx="10" cy="50" r="2.6"/><path d="M28 54 L34 40"/><circle class="joint" cx="35" cy="37" r="2.6"/><path class="vec" d="M46 54 L46 18 M41 24 L46 18 L51 24"/><circle class="joint" cx="46" cy="14" r="2.6"/></svg>'
+};
+
+const P = [
+{
+ id:'empuje', glifo:G.empuje, nombre:'Empuje', sub:'Horizontal y vertical',
+ def:'Alejar una carga del cuerpo, o alejar el cuerpo de un apoyo fijo. Es el patrón que más se entrena y peor se ejecuta, porque casi nadie mira la escápula.',
+ cadena:'Cadena abierta (press) o cerrada (flexión, fondos)',
+ mov:['Flexión de hombro 150–180° para el empuje vertical','Extensión torácica suficiente: sin ella la flexión de hombro se roba de la lumbar','Extensión de muñeca 80–90° en cadena cerrada','Rotación externa de hombro disponible'],
+ est:['Control lumbopélvico antiextensión','Ritmo escapulohumeral: rotación superior de escápula acompañando al húmero','Estabilidad glenohumeral del manguito rotador'],
+ fue:['Pectoral mayor, deltoides anterior y tríceps como motores','Serrato anterior con capacidad de protracción bajo carga','Resistencia isométrica de glúteo y abdomen en cadena cerrada'],
+ mus:[['Pectoral mayor','agonista'],['Deltoides anterior','agonista'],['Tríceps braquial','agonista'],['Serrato anterior','sinergista'],['Trapecio inferior','sinergista'],['Manguito rotador','estabilizador'],['Transverso y oblicuos','estabilizador'],['Glúteo mayor','estabilizador']],
+ fases:[
+  ['Preparación','Isométrica global','Se fija la posición: pelvis neutra, escápulas asentadas, tronco rígido. Todo lo que se pierde aquí no se recupera después.'],
+  ['Excéntrica','Excéntrica controlada','El peso o el cuerpo desciende. La musculatura de empuje frena; la escápula rota inferiormente de forma controlada.'],
+  ['Transición','Isométrica breve','Punto de máxima longitud muscular y máxima demanda de estabilidad. Es donde aparecen los fallos técnicos.'],
+  ['Concéntrica','Concéntrica','El empuje. Al final del recorrido el serrato completa la protracción escapular.']],
+ ejec:['La escápula acompaña el movimiento del húmero, no se queda bloqueada ni se despega','El codo se alinea con el vector de fuerza, sin abducirse a 90° respecto al tronco','En el empuje vertical las costillas no se abren ni la lumbar se extiende','El cuello se mantiene en prolongación del tronco','En cadena cerrada la línea oreja–hombro–cadera–rodilla–tobillo se conserva'],
+ err:[
+  ['Hiperlordosis en el press vertical','Flexión de hombro insuficiente o falta de control antiextensión','Reducir el rango, trabajar extensión torácica y press en sedestación con respaldo'],
+  ['Escápula alada al descender','Déficit de serrato anterior','Regresar a plano inclinado y añadir protracción activa al final de cada repetición'],
+  ['Elevación del trapecio superior','Trapecio inferior y serrato no participan en la rotación escapular','Trabajo específico de rotación superior antes de volver a cargar el empuje'],
+  ['Codos abducidos a 90°','Técnica aprendida, no déficit','Corregir a 45° y explicar el coste articular en hombro']],
+ avd:['Empujar una puerta pesada o un carro de compra','Incorporarse desde decúbito prono apoyando las manos','Colocar algo en un estante alto','Levantarse de una silla usando los reposabrazos'],
+ prog:['Plano inclinado (pared, barra, banco)','Suelo con rodillas apoyadas','Suelo completo','Pies elevados','Unilateral o con inestabilidad']
+},
+{
+ id:'traccion', glifo:G.traccion, nombre:'Tracción', sub:'Horizontal y vertical',
+ def:'Acercar la carga al cuerpo, o acercar el cuerpo a un punto fijo. Es el patrón espejo del empuje y el que más se descompensa en la vida sedentaria.',
+ cadena:'Cadena abierta (remo) o cerrada (dominada, trepa)',
+ mov:['Extensión torácica: sin ella la escápula no puede retraerse','Flexión de hombro completa para la tracción vertical','Rotación inferior y aducción escapular libres','Extensión de codo completa en la posición de partida'],
+ est:['Control lumbopélvico antiextensión en la dominada','Depresión activa de la cintura escapular','Estabilidad glenohumeral: la cabeza humeral no se desliza anterior'],
+ fue:['Dorsal ancho y redondo mayor como motores','Romboides y trapecio medio con capacidad de iniciar el movimiento','Fuerza de prensión suficiente para no ser el eslabón limitante'],
+ mus:[['Dorsal ancho','agonista'],['Redondo mayor','agonista'],['Bíceps braquial','agonista'],['Braquial','agonista'],['Romboides','sinergista'],['Trapecio medio e inferior','sinergista'],['Manguito rotador','estabilizador'],['Abdomen profundo','estabilizador']],
+ fases:[
+  ['Posición de partida','Excéntrica mantenida','Brazo extendido, escápula en rotación inferior y ligera protracción. Se busca longitud, no relajación.'],
+  ['Iniciación escapular','Concéntrica','La escápula se retrae y desciende antes de que el codo se flexione. Este es el criterio que separa una tracción bien hecha de una mal hecha.'],
+  ['Tracción','Concéntrica','El codo se flexiona y el húmero se extiende o aduce. El dorsal es el protagonista.'],
+  ['Retorno','Excéntrica controlada','Se deshace el movimiento en orden inverso: primero el codo, después la escápula.']],
+ ejec:['El movimiento se inicia en la escápula, no en el codo','El hombro no se adelanta ni asciende durante la tracción','El tronco no se balancea para generar impulso','La lumbar no se hiperextiende en la dominada','La muñeca se mantiene neutra, sin flexión compensatoria'],
+ err:[
+  ['El codo se flexiona antes que la escápula','Dominancia de bíceps y ausencia de control escapular','Aislar la retracción escapular sin flexión de codo hasta que la secuencia se automatice'],
+  ['Cabeza humeral que se desplaza hacia delante','Déficit de manguito posterior y de trapecio inferior','Reducir carga y rango; trabajo de rotadores externos'],
+  ['Hiperextensión lumbar en la dominada','Falta de control antiextensión','Añadir la instrucción de mantener las costillas cerradas; regresar a remo invertido'],
+  ['Balanceo del tronco','Carga excesiva para el nivel actual','Bajar carga o usar una progresión más accesible']],
+ avd:['Abrir un cajón o una puerta pesada','Arrastrar una maleta','Sujetarse de una barandilla al subir escaleras','Levantarse de la cama tirando del borde'],
+ prog:['Remo horizontal en máquina o con banda','Remo invertido con el cuerpo muy inclinado','Remo invertido horizontal','Dominada asistida o excéntrica','Dominada completa']
+},
+{
+ id:'sentadilla', glifo:G.sentadilla, nombre:'Sentarse y levantarse', sub:'Sentadilla · sit-to-stand',
+ def:'Triple flexión y extensión coordinada de cadera, rodilla y tobillo manteniendo el tronco erguido. Es el gesto que más veces se repite al día y el primero que se pierde con la edad.',
+ cadena:'Cadena cerrada · bipodal',
+ mov:['Dorsiflexión de tobillo ≥10–15° con rodilla flexionada','Flexión de cadera 90–120° sin pérdida de la neutralidad lumbar','Flexión de rodilla ≥100°','Extensión torácica para mantener el tronco erguido'],
+ est:['Control lumbopélvico: la pelvis no bascula al final del descenso','Estabilidad de rodilla en el plano frontal','Control del centro de masas en el despegue de glúteos'],
+ fue:['Cuádriceps y glúteo mayor como motores principales','Tríceps sural en el ajuste postural','Erectores espinales en isometría durante todo el recorrido'],
+ mus:[['Cuádriceps','agonista'],['Glúteo mayor','agonista'],['Isquiosurales','sinergista'],['Tríceps sural','sinergista'],['Aductor mayor','sinergista'],['Glúteo medio','estabilizador'],['Erectores espinales','estabilizador'],['Abdomen profundo','estabilizador']],
+ fases:[
+  ['Flexión de tronco','Concéntrica de flexores de tronco','El tronco se inclina adelante para llevar el centro de masas sobre los pies. Sin esta fase el levantarse es imposible sin ayuda de brazos.'],
+  ['Transferencia','Concéntrica explosiva','Despegue de los glúteos del asiento. Es el momento de menor base de sustentación y mayor riesgo de caída.'],
+  ['Extensión','Concéntrica','Cadera y rodilla extienden de forma coordinada hasta la bipedestación.'],
+  ['Estabilización','Isométrica','Se recupera el equilibrio en bipedestación. En el paciente frágil esta fase se alarga y es donde se observa la inestabilidad.']],
+ ejec:['Los talones no se despegan del suelo en ningún momento','Las rodillas siguen la línea del segundo y tercer dedo del pie','La columna mantiene sus curvas: no hay flexión lumbar al final del descenso','El tronco y la tibia mantienen ángulos aproximadamente paralelos','El descenso y el ascenso son simétricos entre ambos lados'],
+ err:[
+  ['Talones que se despegan','Dorsiflexión de tobillo limitada','Medir con test de lunge; trabajar movilidad de tobillo o elevar el talón temporalmente'],
+  ['Valgo dinámico de rodilla','Déficit de glúteo medio y rotadores externos','Activación de glúteo medio y trabajo unilateral controlado'],
+  ['Retroversión pélvica al final del descenso','Flexión de cadera limitada o control lumbopélvico insuficiente','Reducir la profundidad al rango donde la pelvis se mantiene neutra'],
+  ['Uso de los brazos para levantarse','Déficit de fuerza en extensores de cadera y rodilla','Elevar la altura del asiento y progresar bajándola']],
+ avd:['Levantarse de la silla, del WC, del coche','Sentarse controlado sin dejarse caer','Subir y bajar escaleras','Agacharse a coger algo de un armario bajo'],
+ prog:['Asiento alto con apoyo de brazos','Asiento alto sin brazos','Asiento estándar sin brazos','Sentadilla libre a paralelo','Sentadilla unilateral asistida']
+},
+{
+ id:'bisagra', glifo:G.bisagra, nombre:'Bisagra de cadera', sub:'Recoger del suelo',
+ def:'Flexión de cadera con la columna en posición neutra y mínima flexión de rodilla. Es el patrón que separa a quien se lesiona la espalda recogiendo algo de quien no.',
+ cadena:'Cadena cerrada · dominante de cadera',
+ mov:['Disociación lumbopélvica: la pelvis rota sobre las cabezas femorales sin arrastrar la lumbar','Extensibilidad de isquiosurales, orientativamente 70–80° en elevación de pierna recta','Flexión de cadera con rodilla casi extendida'],
+ est:['Erectores espinales capaces de mantener la neutralidad lumbar en isometría prolongada','Control del centro de masas desplazándose posteriormente','Estabilidad escapular si se sostiene carga'],
+ fue:['Glúteo mayor e isquiosurales como motores de la extensión','Erectores espinales con resistencia isométrica, no con fuerza concéntrica'],
+ mus:[['Glúteo mayor','agonista'],['Isquiosurales','agonista'],['Aductor mayor','sinergista'],['Erectores espinales','estabilizador'],['Multífidos','estabilizador'],['Abdomen profundo','estabilizador'],['Dorsal ancho','estabilizador']],
+ fases:[
+  ['Preparación','Isométrica','Se fija la columna neutra y se distribuye el peso hacia el mediopié. La rodilla queda en flexión mínima.'],
+  ['Descenso','Excéntrica de glúteo e isquios','La cadera retrocede y el tronco se inclina. La distancia entre esternón y pubis no cambia: ese es el control.'],
+  ['Final de rango','Isométrica','El descenso termina cuando la extensibilidad de isquiosurales se agota, no cuando las manos llegan al suelo.'],
+  ['Extensión','Concéntrica','La cadera avanza y el tronco vuelve a la vertical. El movimiento termina con extensión de cadera, no con hiperextensión lumbar.']],
+ ejec:['La columna lumbar mantiene su lordosis en todo el recorrido','El movimiento ocurre en la cadera, visible como retroceso de los glúteos','La rodilla se mantiene en flexión constante y mínima','El peso se reparte en el mediopié, no en los dedos','Al final no hay hiperextensión lumbar, solo extensión de cadera'],
+ err:[
+  ['Flexión lumbar durante el descenso','Falta de disociación lumbopélvica o isquiosurales cortos','Bisagra con bastón en tres puntos de contacto; reducir el rango al que se controla'],
+  ['Se convierte en sentadilla','Dominancia de cuádriceps y patrón motor mal aprendido','Bisagra contra pared buscando contacto de glúteos, con rodilla bloqueada en flexión mínima'],
+  ['Hiperextensión lumbar al finalizar','Glúteo insuficiente que se compensa con erectores','Enseñar el final del rango como contracción glútea, no como arqueo'],
+  ['Peso desplazado al antepié','El centro de masas no retrocede','Señal táctil detrás de los glúteos para forzar el retroceso de cadera']],
+ avd:['Recoger algo del suelo','Hacer la cama','Sacar la compra del maletero','Coger a un niño en brazos','Meter y sacar ropa de la lavadora'],
+ prog:['Bisagra sin carga con bastón como referencia','Bisagra con carga ligera frontal','Peso muerto rumano bipodal','Peso muerto desde el suelo','Bisagra unilateral']
+},
+{
+ id:'zancada', glifo:G.zancada, nombre:'Zancada y apoyo monopodal', sub:'Estabilidad en plano frontal',
+ def:'Base de sustentación reducida a un pie o a una línea. La demanda pasa del plano sagital al frontal, y ahí es donde se destapan los déficits de control.',
+ cadena:'Cadena cerrada · unilateral o disociada',
+ mov:['Extensión de cadera de la pierna retrasada, mínimo 10°','Dorsiflexión de tobillo del pie adelantado','Flexión de rodilla ≥90° en la zancada profunda'],
+ est:['Glúteo medio con capacidad de mantener la pelvis horizontal','Control de rodilla en plano frontal','Propiocepción de tobillo y pie'],
+ fue:['Cuádriceps y glúteo mayor de la pierna de apoyo','Glúteo medio en régimen isométrico prolongado','Musculatura intrínseca del pie'],
+ mus:[['Cuádriceps','agonista'],['Glúteo mayor','agonista'],['Glúteo medio','estabilizador'],['Glúteo menor','estabilizador'],['Rotadores externos profundos','estabilizador'],['Peroneos y tibial posterior','estabilizador'],['Cuadrado lumbar','estabilizador']],
+ fases:[
+  ['Apoyo inicial','Excéntrica','El pie contacta y absorbe la carga. Se comprueba si la pelvis se mantiene horizontal.'],
+  ['Descenso','Excéntrica','La rodilla adelantada se flexiona controladamente mientras la pelvis no rota ni se inclina.'],
+  ['Punto bajo','Isométrica','Máxima demanda de estabilidad frontal. Aquí se observa el Trendelenburg si existe.'],
+  ['Impulso','Concéntrica','Extensión de cadera y rodilla para volver a la posición de partida.']],
+ ejec:['La pelvis se mantiene horizontal: las dos crestas ilíacas a la misma altura','La rodilla adelantada no se desplaza medialmente','El tronco permanece vertical, sin inclinación lateral compensatoria','El pie de apoyo mantiene los tres puntos de contacto sin colapso del arco','El descenso es controlado, sin caída brusca'],
+ err:[
+  ['Descenso de la hemipelvis contralateral','Insuficiencia de glúteo medio, signo de Trendelenburg','Trabajo específico de abductores en carga; regresar a apoyo con soporte'],
+  ['Inclinación del tronco hacia el lado de apoyo','Compensación de Duchenne por déficit de abductores','Misma corrección; señalar la compensación al alumno para que no la normalice'],
+  ['Valgo de la rodilla adelantada','Rotadores externos de cadera insuficientes','Zancada con banda de resistencia en abducción como estímulo propioceptivo'],
+  ['Colapso del arco plantar','Debilidad de tibial posterior e intrínsecos','Trabajo de pie corto y control de la pronación']],
+ avd:['Subir y bajar escaleras','Salvar un bordillo','Subir al autobús','Cada fase de apoyo monopodal de la marcha, que es el 40 % del ciclo'],
+ prog:['Apoyo monopodal estático con soporte','Apoyo monopodal libre','Step-up a escalón bajo','Zancada estática','Zancada dinámica y sentadilla búlgara']
+},
+{
+ id:'marcha', glifo:G.marcha, nombre:'Marcha', sub:'El patrón integrador',
+ def:'Locomoción cíclica con alternancia de doble apoyo y apoyo monopodal. No es un patrón más: es la integración de casi todos los anteriores en un gesto automatizado.',
+ cadena:'Cadena cerrada alternante · ciclo continuo',
+ mov:['Extensión de cadera ≈10° en el apoyo final','Dorsiflexión de tobillo ≈10° en el apoyo medio','Flexión de rodilla ≈60° en la oscilación media','Rotación torácica disponible para la disociación de cinturas'],
+ est:['Control monopodal durante el 40 % del ciclo','Disociación entre cintura escapular y pélvica','Ajustes posturales anticipatorios'],
+ fue:['Tríceps sural para el despegue','Glúteo medio en cada apoyo','Dorsiflexores para el aclaramiento del pie en oscilación'],
+ mus:[['Tríceps sural','agonista'],['Glúteo mayor','agonista'],['Cuádriceps','agonista'],['Tibial anterior','sinergista'],['Psoas ilíaco','sinergista'],['Glúteo medio','estabilizador'],['Cuadrado lumbar','estabilizador'],['Oblicuos','estabilizador']],
+ fases:[
+  ['Contacto inicial y respuesta a la carga','Excéntrica','El talón contacta y el peso se transfiere. Los dorsiflexores frenan la bajada del antepié.'],
+  ['Apoyo medio','Isométrica y de control','Apoyo monopodal puro. La tibia avanza sobre el pie fijo y el glúteo medio sostiene la pelvis.'],
+  ['Apoyo final y prebalanceo','Concéntrica','La cadera alcanza su extensión máxima y el tríceps sural impulsa. Es la fase que primero se pierde.'],
+  ['Oscilación','Concéntrica de flexores','La pierna avanza libre. Flexión de rodilla y dorsiflexión aseguran que el pie no roce el suelo.']],
+ ejec:['La longitud de paso es simétrica entre ambos lados','Hay extensión de cadera visible en el apoyo final','El contacto inicial se produce con el talón','Los brazos oscilan de forma alterna y disociada del tronco','No hay inclinación lateral ni rotación pélvica excesiva'],
+ err:[
+  ['Ausencia de extensión de cadera en apoyo final','Psoas acortado o glúteo mayor débil','Trabajar extensión de cadera aislada antes de intentar corregir la marcha'],
+  ['Hiperlordosis o rotación pélvica compensatoria','La extensión que falta en cadera se roba de la lumbar','Corregir el origen en cadera, no dar instrucciones sobre la lumbar'],
+  ['Contacto con el antepié o pie plano','Déficit de dorsiflexores o de dorsiflexión pasiva','Diferenciar si es limitación articular o debilidad antes de intervenir'],
+  ['Aumento del tiempo de doble apoyo','Estrategia de seguridad ante inestabilidad','Trabajar apoyo monopodal; no forzar velocidad hasta que mejore la estabilidad']],
+ avd:['Desplazarse dentro y fuera de casa','Caminar cargando peso en un brazo','Cambiar de dirección, girar, esquivar','Caminar sobre superficies irregulares'],
+ prog:['Marcha con apoyo o entre paralelas','Marcha libre en superficie regular','Cambios de velocidad y de dirección','Marcha con obstáculos','Marcha con doble tarea cognitiva']
+},
+{
+ id:'rotacion', glifo:G.rotacion, nombre:'Rotación y antirrotación', sub:'Transferencia de fuerzas',
+ def:'Transmisión de fuerzas entre la cintura escapular y la pélvica a través del tronco. La antirrotación, es decir resistir el giro, es requisito previo de la rotación.',
+ cadena:'Cadena cruzada · tronco como transmisor',
+ mov:['Rotación torácica 35–45° por lado','Rotación de cadera disponible en ambos sentidos','La lumbar aporta poco: entre 5 y 13° en total, y ese es exactamente el problema'],
+ est:['Oblicuos capaces de fijar la pelvis mientras el tórax gira','Control segmentario para que la rotación ocurra donde debe','Estabilidad de la cadera de apoyo'],
+ fue:['Oblicuo externo e interno en cadena cruzada','Dorsal ancho y glúteo contralateral como conexión diagonal','Musculatura profunda en régimen isométrico'],
+ mus:[['Oblicuo externo','agonista'],['Oblicuo interno','agonista'],['Dorsal ancho','sinergista'],['Glúteo mayor contralateral','sinergista'],['Multífidos','estabilizador'],['Transverso del abdomen','estabilizador'],['Rotadores de cadera','estabilizador']],
+ fases:[
+  ['Fijación','Isométrica','Se ancla el segmento que no debe moverse. En antirrotación esta es la única fase y dura todo el ejercicio.'],
+  ['Carga','Excéntrica','El tronco acepta la fuerza rotatoria. Los oblicuos del lado que se alarga frenan el giro.'],
+  ['Rotación','Concéntrica','El tórax gira sobre la pelvis fija. El movimiento debe verse en la caja torácica, no en la pelvis.'],
+  ['Retorno','Excéntrica controlada','Se deshace la rotación sin dejar caer el tronco.']],
+ ejec:['La pelvis permanece orientada al frente mientras el tórax gira','La rotación se ve en las costillas y no en la zona lumbar','La cadera de apoyo mantiene la altura de la pelvis','No hay flexión lateral acompañando a la rotación','La respiración no se bloquea durante el esfuerzo'],
+ err:[
+  ['La pelvis gira con el tórax','Ausencia de disociación y de control de oblicuos','Empezar por ejercicios de antirrotación antes de introducir rotación'],
+  ['La rotación se produce en la lumbar','Rotación torácica limitada, la lumbar suple lo que la torácica no da','Movilidad torácica primero; si no, se está entrenando el error'],
+  ['Flexión lateral compensatoria','Cuadrado lumbar dominante sobre oblicuos','Reducir carga y rango; señal visual de mantener las crestas ilíacas horizontales'],
+  ['Apnea durante el esfuerzo','Estrategia de estabilización por presión, no necesariamente errónea, pero limitante','Enseñar a mantener tensión abdominal con espiración controlada']],
+ avd:['Girarse en la cama','Mirar atrás al aparcar el coche','Barrer, fregar, pasar la aspiradora','Alcanzar un objeto situado a un lado','Cualquier gesto de lanzamiento'],
+ prog:['Antirrotación isométrica con banda (press Pallof)','Antirrotación con desplazamiento de brazos','Rotación torácica sin carga en cuadrupedia','Rotación con carga ligera','Rotación balística o lanzamiento']
+},
+{
+ id:'suelo', glifo:G.suelo, nombre:'Levantarse del suelo', sub:'Transiciones y decúbitos',
+ def:'Pasar de decúbito a bipedestación atravesando posiciones intermedias: rodar, cuadrupedia, medio arrodillado, bipedestación. Es el patrón más completo y el que mejor predice autonomía real.',
+ cadena:'Cadena mixta · transiciones sucesivas',
+ mov:['Rotación de tronco para rodar con disociación de cinturas','Extensión de muñeca y carga en miembro superior','Flexión de cadera y rodilla amplias para el medio arrodillado','Dorsiflexión de tobillo para el paso final'],
+ est:['Control del centro de masas cambiando de base de sustentación varias veces','Estabilidad escapular en carga','Apoyo monopodal transitorio en la última fase'],
+ fue:['Extensores de cadera y rodilla para la elevación final','Empuje de miembro superior en cadena cerrada','Abdominales y oblicuos para la incorporación'],
+ mus:[['Glúteo mayor','agonista'],['Cuádriceps','agonista'],['Oblicuos','agonista'],['Tríceps braquial','sinergista'],['Serrato anterior','sinergista'],['Glúteo medio','estabilizador'],['Manguito rotador','estabilizador'],['Abdomen profundo','estabilizador']],
+ fases:[
+  ['Rodar a decúbito lateral','Concéntrica de oblicuos','Se inicia con rotación de cabeza y cintura escapular. La disociación de cinturas es lo que hace el gesto eficiente.'],
+  ['Incorporación a sedestación lateral','Empuje en cadena cerrada','El miembro superior soporta carga mientras el tronco se eleva. Aquí aparece el patrón de empuje.'],
+  ['Cuadrupedia','Isométrica de estabilización','Base amplia y estable. Punto de descanso natural en el paciente con menor capacidad.'],
+  ['Medio arrodillado','Concéntrica de extensores de cadera','Transición a una base estrecha. Máxima demanda de control lumbopélvico y de glúteo.'],
+  ['Bipedestación','Concéntrica y estabilización','Extensión final con apoyo monopodal transitorio. Combina zancada y sentarse-levantarse.']],
+ ejec:['El giro se inicia por arriba, con cabeza y hombro, no tirando de la pierna','El miembro superior soporta carga con la muñeca en extensión cómoda y el codo alineado','En medio arrodillado el tronco está vertical y la pelvis neutra, sin anteversión','No se usa mobiliario como apoyo obligatorio','La secuencia es fluida, sin puntos de bloqueo prolongados'],
+ err:[
+  ['Incorporación en bloque, sin rodar','Ausencia de disociación de cinturas','Enseñar el rodar segmentario antes de trabajar el levantarse completo'],
+  ['Dolor o evitación de la carga en muñeca','Extensión de muñeca limitada o dolorosa','Apoyar en puño cerrado o en antebrazo como alternativa'],
+  ['Anteversión pélvica marcada en medio arrodillado','Psoas acortado o glúteo insuficiente','Trabajar el medio arrodillado como ejercicio aislado antes de integrarlo'],
+  ['Dependencia de un mueble para la fase final','Déficit de fuerza en extensores o miedo a caer','Progresar altura de apoyo; abordar también el componente de miedo']],
+ avd:['Levantarse tras una caída','Jugar en el suelo con niños o nietos','Recoger algo debajo de un mueble','Entrar y salir de la bañera','Trabajar en el suelo: jardinería, reparaciones'],
+ prog:['Transiciones parciales asistidas en camilla','Rodar y sedestación lateral en suelo','Cuadrupedia a medio arrodillado con apoyo','Secuencia completa con apoyo de manos','Secuencia completa sin apoyo de manos']
+}
+];
+
+const EJ = [
+{
+ id:'flexion', nombre:'Flexión de brazos', pat:'Empuje horizontal + antirrotación y antiextensión de tronco',
+ claim:'Una flexión no es un ejercicio de pecho. Es una plancha que se mueve, y la mayoría de los fallos ocurren en el tronco, no en los brazos.',
+ mov:['Extensión de muñeca cómoda de 80–90°, o apoyo en paralelas si no la hay','Extensión torácica suficiente para que las escápulas se muevan libres','Rotación externa de hombro disponible para colocar los codos a 45°'],
+ est:['Control lumbopélvico antiextensión: la pelvis no cae','Control escapular en todo el recorrido, especialmente en la protracción final','Estabilidad glenohumeral en el punto bajo'],
+ fue:['Pectoral mayor, deltoides anterior y tríceps','Serrato anterior capaz de protraer bajo carga','Glúteo y cuádriceps en isometría para mantener la línea corporal'],
+ fases:[
+  ['Posición de partida','Isométrica global','Manos bajo los hombros, pelvis neutra, glúteo y cuádriceps activos. La línea oreja–hombro–cadera–rodilla–tobillo debe existir antes de empezar.'],
+  ['Descenso','Excéntrica','Los codos se flexionan a unos 45° del tronco. Las escápulas rotan inferiormente de forma controlada. El tronco no cede.'],
+  ['Punto bajo','Isométrica','Pecho cerca del suelo. Máxima longitud del pectoral y máxima demanda de estabilidad del tronco.'],
+  ['Empuje','Concéntrica','Extensión de codo y flexión horizontal de hombro. Al final, el serrato completa la protracción de la escápula.']],
+ ejec:['La línea oreja–hombro–cadera–rodilla–tobillo se mantiene íntegra','Los codos forman unos 45° con el tronco, no 90°','Las escápulas se mueven: retraen al bajar y protraen al final del empuje','La pelvis no bascula en anteversión ni la cadera cae','La cabeza sigue la línea del tronco, sin adelantarse'],
+ err:[
+  ['La cadera cae con hiperlordosis','Déficit de control antiextensión del tronco, no de fuerza de brazos','Regresar a plano inclinado, no a flexión de rodillas: el problema es el tronco'],
+  ['Escápula alada durante el descenso','Serrato anterior insuficiente','Añadir protracción activa al final de cada repetición; plano inclinado mientras tanto'],
+  ['Codos abducidos a 90°','Técnica aprendida por imitación','Corregir a 45° y explicar la razón: coste articular en hombro sin ganancia'],
+  ['La cabeza se adelanta y el mentón busca el suelo','Rango incompleto disfrazado','Reducir el rango real y mantener la cabeza alineada'],
+  ['Dolor en la muñeca','Extensión de muñeca limitada','Apoyo en paralelas, en mancuernas o en puño cerrado']],
+ prog:['Flexión en pared','Flexión en barra o banco alto','Flexión con rodillas apoyadas manteniendo la línea tronco–muslo','Flexión completa','Pies elevados o con lastre'],
+ avd:['Empujar una puerta pesada','Incorporarse desde decúbito prono','Levantarse del suelo apoyando las manos','Empujar un mueble o un carro cargado']
+},
+{
+ id:'mabu', nombre:'Mabu · postura del jinete', pat:'Sentadilla isométrica en abducción de cadera + control lumbopélvico',
+ claim:'El mabu no evalúa fuerza máxima sino resistencia isométrica y capacidad de mantener la pelvis neutra mientras la cadera trabaja en abducción y rotación externa.',
+ mov:['Abducción de cadera de unos 40–45° por lado con rotación externa asociada','Dorsiflexión de tobillo suficiente para mantener el talón apoyado con la rodilla flexionada','Flexión de rodilla hasta 90° sin dolor','Extensión torácica para sostener el tronco vertical'],
+ est:['Control lumbopélvico para evitar la anteversión y la hiperlordosis','Glúteo medio y rotadores externos manteniendo la rodilla alineada','Reparto estable del peso en toda la superficie plantar'],
+ fue:['Resistencia isométrica de cuádriceps, que es el factor limitante habitual','Glúteo mayor y medio en contracción sostenida','Erectores y abdomen profundo en cocontracción'],
+ fases:[
+  ['Entrada','Concéntrica y de colocación','Se abren los pies, se desciende con control y se coloca la pelvis. La mitad de los errores se cometen aquí y ya no se corrigen.'],
+  ['Mantenimiento','Isométrica','La única fase real del ejercicio. La técnica se degrada progresivamente con la fatiga: es esperable y es lo que hay que observar.'],
+  ['Salida','Concéntrica','Se sube manteniendo la alineación. Salir descuidadamente anula parte del control trabajado.']],
+ ejec:['Los pies paralelos o con ligerísima rotación externa, según la anatomía de cada cadera','Las tibias verticales vistas de frente: la rodilla queda sobre el tobillo, no por dentro ni por fuera','Las rodillas siguen la línea del segundo y tercer dedo','La pelvis en posición neutra: ni anteversión con lordosis ni retroversión','El tronco vertical, no inclinado hacia delante','El peso repartido en todo el pie, con los talones apoyados'],
+ err:[
+  ['Anteversión pélvica con hiperlordosis','Déficit de control lumbopélvico, o flexión de cadera limitada que se compensa arriba','Subir la altura de la postura hasta el rango donde la pelvis se mantiene neutra'],
+  ['Rodillas que colapsan hacia dentro','Glúteo medio y rotadores externos insuficientes','Banda elástica por encima de las rodillas como estímulo; reducir el tiempo y la profundidad'],
+  ['Talones despegados o peso en el antepié','Dorsiflexión de tobillo limitada','Verificar con test de lunge; elevar el talón temporalmente mientras se gana movilidad'],
+  ['Tronco inclinado hacia delante','Resistencia de cuádriceps insuficiente: se busca apoyo en la cadena posterior','Reducir la profundidad y el tiempo antes de insistir en la corrección postural'],
+  ['Apnea sostenida','Estrategia de estabilización por presión intraabdominal','Enseñar a respirar manteniendo la tensión, sin bloquear']],
+ prog:['Cuarto de rango, 20–30 s','Media altura, 30–45 s','Paralelo, 30 s','Paralelo con series acumuladas','Paralelo con carga sostenida en brazos'],
+ avd:['Mantener posturas de trabajo en semiflexión: jardinería, cuidado de niños, oficios manuales','Estabilidad en el plano frontal ante empujones o superficies irregulares','Resistencia de cuádriceps en descensos y escaleras largas']
+}
+];
+
+const grid=document.getElementById('grid');
+const ficha=document.getElementById('ficha');
+let sel=P[0].id, tab='requisitos';
+
+P.forEach(p=>{
+  const b=document.createElement('button');
+  b.className='tile'; b.type='button'; b.setAttribute('role','tab');
+  b.setAttribute('aria-selected', p.id===sel);
+  b.innerHTML = p.glifo + '<div><div class="tile-name">'+p.nombre+'</div><div class="tile-sub">'+p.sub+'</div></div>';
+  b.addEventListener('click',()=>{ sel=p.id; tab='requisitos'; render(); });
+  grid.appendChild(b);
+});
+
+const TABS=[['requisitos','Requisitos'],['fases','Fases'],['ejecucion','Ejecución correcta'],['errores','Errores y causas'],['transferencia','Transferencia']];
+
+function roles(mus){
+  return '<div class="roles">'+mus.map(m=>'<span class="m '+m[1]+'">'+m[0]+'</span>').join('')+'</div>'+
+  '<div class="leyenda"><span><i style="background:#9C3A38"></i>agonista</span><span><i style="background:#A9761B"></i>sinergista</span><span><i style="background:#356878"></i>estabilizador</span></div>';
+}
+function li(a){return a.map(x=>'<li>'+x+'</li>').join('');}
+
+function panel(p){
+  if(tab==='requisitos') return '<div class="cols">'+
+    '<div><h4>Movilidad</h4><ul>'+li(p.mov)+'</ul></div>'+
+    '<div><h4>Estabilidad y control</h4><ul>'+li(p.est)+'</ul></div>'+
+    '<div><h4>Fuerza</h4><ul>'+li(p.fue)+'</ul></div></div>'+
+    '<h4>Musculatura por rol</h4>'+roles(p.mus);
+  if(tab==='fases') return p.fases.map((f,i)=>
+    '<div class="fase"><div class="fase-n">'+(i+1)+'</div><div><p class="fase-name">'+f[0]+'</p>'+
+    '<p class="fase-c">'+f[1]+'</p><p class="fase-d">'+f[2]+'</p></div></div>').join('');
+  if(tab==='ejecucion') return '<h4>Qué debe observarse en una ejecución correcta</h4><ul class="check">'+li(p.ejec)+'</ul>';
+  if(tab==='errores') return '<div class="err-head"><div>Error observable</div><div>Causa probable</div><div>Qué hacer</div></div>'+
+    p.err.map(e=>'<div class="err"><b>'+e[0]+'</b><div class="causa">'+e[1]+'</div><div>'+e[2]+'</div></div>').join('');
+  return '<div class="two"><div><h4>Actividades de la vida diaria que comparten este patrón</h4><ul>'+li(p.avd)+
+    '</ul></div><div><h4>Progresión</h4><ol>'+li(p.prog)+'</ol></div></div>';
+}
+
+function render(){
+  [...grid.children].forEach((b,i)=>b.setAttribute('aria-selected', P[i].id===sel));
+  const p=P.find(x=>x.id===sel);
+  ficha.innerHTML =
+    '<div class="ficha-head"><h3>'+p.nombre+'</h3><p class="ficha-def">'+p.def+'</p>'+
+    '<div class="chain">'+p.cadena+'</div></div>'+
+    '<div class="tabs" role="tablist">'+TABS.map(t=>
+      '<button class="tab" type="button" role="tab" data-t="'+t[0]+'" aria-selected="'+(t[0]===tab)+'">'+t[1]+'</button>').join('')+'</div>'+
+    '<div class="panel">'+panel(p)+'</div>';
+  ficha.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{tab=b.dataset.t;render();}));
+}
+render();
+
+const ce=document.getElementById('ejercicios');
+ce.innerHTML = EJ.map(e=>
+ '<div class="ex" data-open="false"><button class="ex-btn" type="button" aria-expanded="false">'+
+ '<span><span class="ex-t">'+e.nombre+'</span><span class="ex-p">'+e.pat+'</span></span>'+
+ '<span class="ex-sign">+</span></button><div class="ex-body">'+
+ '<p class="claim">'+e.claim+'</p>'+
+ '<div class="cols"><div><h4>Movilidad necesaria</h4><ul>'+li(e.mov)+'</ul></div>'+
+ '<div><h4>Estabilidad y control</h4><ul>'+li(e.est)+'</ul></div>'+
+ '<div><h4>Fuerza</h4><ul>'+li(e.fue)+'</ul></div></div>'+
+ '<h4>Fases</h4>'+e.fases.map((f,i)=>'<div class="fase"><div class="fase-n">'+(i+1)+'</div><div>'+
+ '<p class="fase-name">'+f[0]+'</p><p class="fase-c">'+f[1]+'</p><p class="fase-d">'+f[2]+'</p></div></div>').join('')+
+ '<h4>Criterios de ejecución</h4><ul class="check">'+li(e.ejec)+'</ul>'+
+ '<h4>Errores y causas</h4><div class="err-head"><div>Error observable</div><div>Causa probable</div><div>Qué hacer</div></div>'+
+ e.err.map(x=>'<div class="err"><b>'+x[0]+'</b><div class="causa">'+x[1]+'</div><div>'+x[2]+'</div></div>').join('')+
+ '<div class="two" style="margin-top:28px"><div><h4>Progresión</h4><ol>'+li(e.prog)+'</ol></div>'+
+ '<div><h4>Transferencia funcional</h4><ul>'+li(e.avd)+'</ul></div></div>'+
+ '</div></div>').join('');
+
+ce.querySelectorAll('.ex-btn').forEach(b=>b.addEventListener('click',()=>{
+  const box=b.parentElement, open=box.dataset.open==='true';
+  box.dataset.open=String(!open);
+  b.setAttribute('aria-expanded',String(!open));
+  b.querySelector('.ex-sign').textContent = open?'+':'–';
+}));
+</script>
+</body>
+</html>
