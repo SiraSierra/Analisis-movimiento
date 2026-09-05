@@ -304,7 +304,7 @@ body{
     <div class="course">
       <span>Fisioterapia · Unizar</span>
       <span>Análisis del movimiento</span>
-      <span>Fase 1 de 4</span>
+      <span>Fase 2 de 4</span>
     </div>
   </div>
 </header>
@@ -326,7 +326,7 @@ body{
 <section class="ejer">
   <div class="wrap">
     <h2>Ejercicios desglosados</h2>
-    <p class="sub">Aquí se aplica todo lo anterior: se toma un ejercicio concreto, se identifican los patrones que lo componen y se enumera qué hace falta para ejecutarlo bien.</p>
+    <p class="sub">Siete ejercicios analizados con el mismo esquema. Se identifican los patrones que los componen y se enumera qué hace falta para ejecutarlos bien. Pulsa cualquiera para desplegarlo.</p>
     <div id="ejercicios"></div>
   </div>
 </section>
@@ -335,7 +335,7 @@ body{
   <div class="wrap">
     <h2>Desarrollo del proyecto</h2>
     <div class="plan-row done"><div class="f">Fase 1</div><p>Los ocho patrones primarios con ficha completa, más dos ejercicios desglosados que demuestran el módulo de aplicación.</p></div>
-    <div class="plan-row"><div class="f">Fase 2</div><p>Ampliar el catálogo de ejercicios: dominada, peso muerto rumano, zancada búlgara, plancha lateral, step-up. Y el catálogo paralelo de AVD equivalentes.</p></div>
+    <div class="plan-row done"><div class="f">Fase 2</div><p>Catálogo de siete ejercicios desglosados. Cada patrón primario tiene ya al menos un ejemplo aplicado con criterios de ejecución, errores y progresión.</p></div>
     <div class="plan-row"><div class="f">Fase 3</div><p>Módulo de autoevaluación: el alumno ve una ejecución, identifica el error observable y elige la causa probable entre movilidad, control o fuerza.</p></div>
     <div class="plan-row"><div class="f">Fase 4</div><p>Vincular cada requisito con su prueba de valoración: test de lunge, elevación de pierna recta, Trendelenburg, sit-to-rise, escala de sentadilla.</p></div>
   </div>
@@ -574,6 +574,110 @@ const EJ = [
   ['Apnea sostenida','Estrategia de estabilización por presión intraabdominal','Enseñar a respirar manteniendo la tensión, sin bloquear']],
  prog:['Cuarto de rango, 20–30 s','Media altura, 30–45 s','Paralelo, 30 s','Paralelo con series acumuladas','Paralelo con carga sostenida en brazos'],
  avd:['Mantener posturas de trabajo en semiflexión: jardinería, cuidado de niños, oficios manuales','Estabilidad en el plano frontal ante empujones o superficies irregulares','Resistencia de cuádriceps en descensos y escaleras largas']
+},
+{
+ id:'dominada', nombre:'Dominada', pat:'Tracción vertical en cadena cerrada + antiextensión de tronco',
+ claim:'La dominada no la limita el bíceps. La limitan la capacidad de iniciar el movimiento desde la escápula y la de mantener el tronco rígido mientras el cuerpo asciende.',
+ mov:['Flexión de hombro completa para colgarse sin compensar con la lumbar','Extensión torácica suficiente para que la escápula pueda deprimirse','Extensión de codo completa en la posición colgada'],
+ est:['Control antiextensión lumbar: las costillas no se abren','Depresión y rotación inferior escapular activas, no pasivas','Estabilidad glenohumeral en posición colgada, que es donde más se exige'],
+ fue:['Dorsal ancho y redondo mayor como motores','Trapecio inferior y romboides capaces de iniciar el movimiento','Prensión suficiente para no ser el eslabón limitante','Glúteo y abdomen en isometría para evitar el balanceo'],
+ fases:[
+  ['Posición colgada','Isométrica activa','Brazos extendidos y escápulas en rotación inferior. No es colgarse pasivamente: hay tensión mantenida en todo el cuerpo.'],
+  ['Iniciación escapular','Concéntrica','La escápula desciende y se retrae antes de que el codo se flexione. Sin esta fase, la dominada se convierte en un curl con el peso del cuerpo.'],
+  ['Tracción','Concéntrica','Extensión y aducción del húmero. El esternón se dirige a la barra, no el mentón.'],
+  ['Descenso','Excéntrica controlada','Se deshace en orden inverso: primero el codo, después la escápula, hasta recuperar la extensión completa.']],
+ ejec:['El movimiento se inicia en la escápula y no en el codo','El cuerpo no se balancea ni genera impulso con las piernas','Las costillas permanecen cerradas: no hay arqueo lumbar','Abajo se alcanza la extensión completa de codo','El ascenso es simétrico entre ambos lados'],
+ err:[
+  ['El cuerpo se balancea','Carga excesiva para el nivel actual','Pasar a dominada asistida con banda o a excéntricas lentas'],
+  ['Rango incompleto en la parte baja','Evitación de la posición de mayor demanda o falta de control escapular al colgar','Trabajar el colgado activo aislado antes de sumar repeticiones'],
+  ['Hiperextensión lumbar con las piernas adelantadas','Déficit de control antiextensión','Instrucción de cerrar costillas y apretar glúteo; regresar a remo invertido'],
+  ['Los hombros se elevan hacia las orejas al colgar','Ausencia de depresión escapular activa','Practicar la dominada escapular aislada, sin flexionar el codo'],
+  ['Ascenso claramente asimétrico','Déficit unilateral de fuerza o de control','Excéntricas unilaterales controladas del lado débil']],
+ prog:['Dominada escapular colgada, sin flexionar el codo','Remo invertido horizontal','Dominada asistida con banda elástica','Excéntrica lenta desde la posición alta','Dominada completa'],
+ avd:['Subir por una escalera de mano','Izarse para salir de una piscina','Sujetarse a la barra en el transporte público ante un frenazo','Levantarse tirando de una barandilla']
+},
+{
+ id:'rdl', nombre:'Peso muerto rumano', pat:'Bisagra de cadera con carga + antiflexión de columna',
+ claim:'Es la bisagra de cadera cargada. El criterio no es cuánto baja la barra, sino hasta dónde llega la cadera manteniendo la columna neutra.',
+ mov:['Extensibilidad de isquiosurales, orientativamente 70–80° en elevación de pierna recta','Disociación lumbopélvica bajo carga','Extensión torácica para poder mantener la barra pegada al cuerpo'],
+ est:['Erectores espinales en isometría prolongada','Dorsal ancho manteniendo la barra cerca de la pierna','Control del centro de masas mientras la cadera retrocede'],
+ fue:['Glúteo mayor e isquiosurales en régimen excéntrico','Erectores espinales con resistencia isométrica, no concéntrica','Prensión suficiente para completar la serie'],
+ fases:[
+  ['Preparación','Isométrica','Columna neutra, barra en contacto con el muslo, peso en el mediopié y rodilla en flexión mínima que ya no cambiará.'],
+  ['Descenso','Excéntrica','La cadera retrocede y el tronco se inclina. La distancia entre esternón y pubis no varía: eso es el control.'],
+  ['Final de rango','Isométrica','El descenso termina cuando se agota la extensibilidad de los isquiosurales, no cuando la barra alcanza una altura concreta.'],
+  ['Extensión','Concéntrica','La cadera avanza y el tronco vuelve a la vertical. El gesto acaba en contracción glútea, nunca en arqueo lumbar.']],
+ ejec:['La lordosis lumbar se conserva durante todo el recorrido','La barra viaja pegada a la pierna, sin separarse','La rodilla mantiene la misma flexión mínima de principio a fin','El peso se reparte en el mediopié','El final es extensión de cadera con glúteo, sin hiperextensión lumbar'],
+ err:[
+  ['La barra se separa de la pierna','El dorsal ancho no participa en mantenerla cerca','Indicación de llevar la barra hacia atrás, contra el muslo, durante todo el descenso'],
+  ['Flexión lumbar en el tramo final','El rango excede la extensibilidad disponible de isquiosurales','Acortar el recorrido al punto donde la neutralidad se conserva'],
+  ['Se convierte en sentadilla','Dominancia de cuádriceps y patrón mal aprendido','Bisagra sin carga contra la pared antes de volver a cargar'],
+  ['Hiperextensión lumbar al terminar','Glúteo insuficiente compensado con erectores','Enseñar el final del rango como contracción glútea, no como arqueo'],
+  ['Se pierde el agarre antes que la técnica','La prensión es el factor limitante','Agarre mixto o correas, para que el estímulo llegue a la cadena posterior']],
+ prog:['Bisagra sin carga con bastón en tres puntos de contacto','Peso muerto rumano con mancuernas ligeras','Peso muerto rumano con barra','Con déficit, subido a un step','Unilateral'],
+ avd:['Levantar una caja del suelo','Sacar la compra del maletero','Coger a un niño en brazos','Mover muebles o cargar bultos']
+},
+{
+ id:'bulgara', nombre:'Sentadilla búlgara', pat:'Apoyo monopodal + sentarse-levantarse unilateral',
+ claim:'Es el ejercicio que más rápido destapa una asimetría. La pierna trasera solo da referencia; todo el trabajo real está en la de delante.',
+ mov:['Extensión de cadera de la pierna trasera: psoas y recto femoral extensibles','Dorsiflexión de tobillo de la pierna adelantada','Flexión de rodilla adelantada de al menos 90° sin dolor'],
+ est:['Glúteo medio manteniendo la pelvis horizontal durante todo el recorrido','Control de la rodilla en el plano frontal','Equilibrio sobre una base de sustentación estrecha'],
+ fue:['Cuádriceps y glúteo mayor de la pierna de apoyo','Glúteo medio en isometría sostenida','Musculatura intrínseca del pie de apoyo'],
+ fases:[
+  ['Colocación','Isométrica','Se ajusta la distancia al banco. Demasiado cerca convierte el ejercicio en una demanda excesiva de rodilla; demasiado lejos, en un estiramiento de psoas.'],
+  ['Descenso','Excéntrica','La rodilla adelantada se flexiona y el tronco baja de forma vertical. La pelvis no rota ni se inclina.'],
+  ['Punto bajo','Isométrica','Máxima demanda de estabilidad frontal. Es el instante donde se observa el Trendelenburg si existe.'],
+  ['Ascenso','Concéntrica','Extensión de cadera y rodilla empujando desde el mediopié de la pierna adelantada, sin ayuda de la trasera.']],
+ ejec:['Las dos crestas ilíacas se mantienen a la misma altura','La rodilla adelantada no colapsa hacia dentro','El tronco permanece vertical, salvo inclinación deliberada si se busca énfasis glúteo','El talón adelantado no se despega del suelo','La pierna trasera no empuja: solo estabiliza'],
+ err:[
+  ['Descenso de la hemipelvis contralateral','Insuficiencia de glúteo medio','Reducir el rango y trabajar abductores en carga antes de progresar'],
+  ['Se empuja con la pierna trasera','Estrategia para repartir la carga y reducir la demanda','Separar más el pie trasero o apoyar solo el empeine sobre el banco'],
+  ['Valgo de la rodilla adelantada','Rotadores externos de cadera insuficientes','Señal táctil o banda de resistencia; bajar carga hasta recuperar la alineación'],
+  ['El talón adelantado se despega','Dorsiflexión limitada o pie colocado demasiado cerca del banco','Adelantar el pie y comprobar el tobillo con test de lunge'],
+  ['Pérdida constante del equilibrio','Base demasiado estrecha para el nivel actual','Apoyar una mano en la pared mientras se consolida el patrón']],
+ prog:['Apoyo monopodal estático','Zancada estática con los dos pies en el suelo','Búlgara con el pie trasero apenas elevado','Búlgara a banco estándar','Búlgara con carga'],
+ avd:['Subir escaleras de peldaño alto','Salvar un bordillo alto','Subir a un vehículo elevado','Incorporarse desde la posición de medio arrodillado']
+},
+{
+ id:'plancha', nombre:'Plancha lateral', pat:'Antiflexión lateral de tronco + estabilidad frontal',
+ claim:'Mide algo que ningún otro ejercicio de la lista mide: la capacidad del tronco de resistir la caída lateral. Y es un requisito silencioso de la marcha.',
+ mov:['Abducción y extensión de hombro disponibles para apoyar el codo bajo el hombro','Extensión de cadera neutra, sin flexión residual','Extensión de muñeca si se apoya con la mano en lugar del codo'],
+ est:['Cuadrado lumbar y oblicuos resistiendo la flexión lateral','Glúteo medio de la pierna de apoyo','Estabilidad escapular del hombro que soporta el peso'],
+ fue:['Oblicuos externo e interno en isometría','Glúteo medio sostenido','Serrato anterior fijando la escápula contra la parrilla costal'],
+ fases:[
+  ['Entrada','Concéntrica y de colocación','Se eleva la pelvis desde decúbito lateral. El codo debe quedar justo bajo el hombro, no adelantado.'],
+  ['Mantenimiento','Isométrica','Única fase real del ejercicio. La línea hombro–cadera–tobillo se conserva mientras la pelvis tiende a caer.'],
+  ['Salida','Excéntrica controlada','Se desciende sin dejarse caer. Salir de golpe anula parte del control trabajado.']],
+ ejec:['La línea hombro–cadera–rodilla–tobillo se mantiene recta vista de frente','El codo queda justo debajo del hombro','La pelvis ni cae ni se eleva en exceso','El tronco no rota hacia delante ni hacia atrás','El hombro de apoyo se aleja de la oreja, sin hundirse','La respiración continúa con normalidad'],
+ err:[
+  ['La pelvis desciende progresivamente','Fatiga de oblicuos y cuadrado lumbar; es el criterio para dar la serie por terminada','Cortar la serie en el momento en que se pierde la línea, no aguantar más tiempo'],
+  ['El tronco rota hacia delante','La posición pura resulta demasiado exigente','Regresar a plancha lateral con las rodillas apoyadas'],
+  ['El hombro de apoyo se hunde','Serrato anterior insuficiente','Empujar activamente el suelo alejando el hombro de la oreja'],
+  ['El codo queda adelantado respecto al hombro','Error de colocación en la entrada','Corregir antes de empezar el mantenimiento; el dolor de hombro suele venir de aquí'],
+  ['Apnea durante todo el ejercicio','Estabilización por presión intraabdominal','Enseñar a mantener la tensión respirando, sin bloquear']],
+ prog:['Plancha lateral con las rodillas apoyadas','Plancha lateral completa','Con abducción mantenida de la pierna superior','Con apoyo de mano en vez de codo','Con desplazamiento o carga añadida'],
+ avd:['Cargar una bolsa pesada en un solo brazo','Mantener el tronco estable en cada apoyo monopodal de la marcha','Sostener a alguien que se apoya en un lado','Resistir un empujón lateral sin perder el equilibrio']
+},
+{
+ id:'stepup', nombre:'Step-up', pat:'Zancada + sentarse-levantarse unilateral + transferencia de carga',
+ claim:'Es el puente entre el apoyo monopodal y la escalera real. Todo depende de si la subida la hace la pierna de arriba o el impulso de la de abajo.',
+ mov:['Flexión de cadera y rodilla suficientes para colocar el pie en la altura elegida','Dorsiflexión de tobillo del pie que sube','Extensión completa de cadera al llegar arriba'],
+ est:['Glúteo medio manteniendo la pelvis horizontal durante la transferencia','Control de la rodilla en el plano frontal','Equilibrio en apoyo monopodal transitorio'],
+ fue:['Cuádriceps y glúteo mayor de la pierna que sube','Glúteo medio en isometría','Control excéntrico para el descenso, que es la fase más exigente'],
+ fases:[
+  ['Colocación del pie','Concéntrica','El pie se apoya completo sobre el escalón, no solo con el antepié colgando del borde.'],
+  ['Transferencia de carga','Concéntrica','El peso pasa a la pierna de arriba. Aquí es donde se hace trampa dando impulso con el pie de abajo.'],
+  ['Extensión','Concéntrica','Cadera y rodilla extienden hasta la bipedestación completa sobre el escalón.'],
+  ['Descenso','Excéntrica','Bajada controlada. Es la fase más exigente y la que más se descuida en el entrenamiento.']],
+ ejec:['El pie sube apoyado por completo sobre el escalón','La pelvis se mantiene horizontal durante la transferencia','La rodilla sigue la línea del segundo y tercer dedo','La pierna de abajo no da impulso','El descenso es controlado, sin dejarse caer'],
+ err:[
+  ['Impulso con el pie de abajo','Altura excesiva del escalón o déficit de fuerza en la pierna que sube','Bajar la altura hasta que la subida sea limpia'],
+  ['Descenso de la hemipelvis contralateral','Glúteo medio insuficiente','Reducir altura y trabajar abductores antes de progresar'],
+  ['Valgo de rodilla durante la transferencia','Rotadores externos de cadera insuficientes','Señal externa o banda; bajar altura'],
+  ['Inclinación excesiva del tronco hacia delante','Estrategia para acercar el centro de masas; puede señalar déficit de extensores de cadera','Reducir la altura antes de dar instrucciones sobre la postura del tronco'],
+  ['Caída en la bajada','Falta de control excéntrico','Trabajar solo la fase de descenso desde el escalón, con apoyo si hace falta']],
+ prog:['Step-up a escalón muy bajo con apoyo de manos','Escalón bajo sin apoyo','Escalón a la altura de la rodilla','Con carga en las manos','Step-down unilateral controlado'],
+ avd:['Subir y bajar escaleras','Subir a un autobús o un tren','Salvar un bordillo alto','Subirse a un taburete para alcanzar algo']
 }
 ];
 
