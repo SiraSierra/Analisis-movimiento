@@ -20,6 +20,7 @@
   --ochre:#A9761B;
   --rule:#C9CFC5;
   --rule-soft:#DDE1D8;
+  --ok:#4A7C59;
 
   --f-display:"Bitter",Georgia,"Times New Roman",serif;
   --f-body:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
@@ -277,6 +278,142 @@ body{
 .plan-row.done .f::after{content:" · lista";font-weight:400;color:var(--ink-faint);}
 .plan-row p{margin:0;color:var(--ink-soft);max-width:70ch;}
 
+/* ---------- autoevaluación ---------- */
+.auto{padding:8px 0 72px;}
+.auto > h2{font-family:var(--f-display);font-weight:600;font-size:var(--t-l);margin:0 0 6px;letter-spacing:-0.01em;}
+.auto > p.sub{font-size:var(--t-s);color:var(--ink-faint);margin:0 0 26px;max-width:62ch;}
+.q{background:var(--surface);border:1px solid var(--rule);padding:32px;}
+.q-meta{
+  display:flex;justify-content:space-between;gap:16px;
+  font-size:var(--t-xs);color:var(--ink-faint);
+  padding-bottom:10px;border-bottom:1px solid var(--rule);margin-bottom:26px;
+}
+.q-obs{
+  font-family:var(--f-display);font-weight:500;font-size:var(--t-l);line-height:1.4;
+  border-left:2px solid var(--muscle);padding-left:18px;margin:0 0 32px;max-width:58ch;
+}
+.q-step{margin-bottom:28px;}
+.q-step h4{font-size:var(--t-s);font-weight:600;color:var(--ink-faint);margin:0 0 12px;}
+.opts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.opts.vert{grid-template-columns:1fr;gap:8px;}
+.opt{
+  background:var(--surface-2);border:1px solid var(--rule);
+  font:inherit;color:var(--ink);text-align:left;padding:14px 16px;
+  cursor:pointer;display:flex;flex-direction:column;gap:5px;line-height:1.4;
+  font-size:var(--t-s);transition:border-color .14s ease,background .14s ease;
+}
+.opts.vert .opt{flex-direction:row;}
+.opt b{font-weight:600;font-size:var(--t-b);}
+.opt span{font-size:var(--t-xs);color:var(--ink-faint);}
+.opt:hover:not(:disabled){border-color:var(--ink);background:var(--surface);}
+.opt:focus-visible{outline:2px solid var(--axis);outline-offset:2px;}
+.opt:disabled{cursor:default;}
+.opt[data-state="correct"]{border-color:var(--ok);background:rgba(74,124,89,.09);color:var(--ok);}
+.opt[data-state="correct"] span{color:var(--ok);}
+.opt[data-state="wrong"]{border-color:var(--muscle);background:rgba(156,58,56,.07);color:var(--muscle);}
+.opt[data-state="wrong"] span{color:var(--muscle);}
+.opt[data-state="dim"]{opacity:.4;}
+.q-feed{border-top:1px solid var(--rule);padding-top:22px;}
+.verdict{font-weight:600;font-size:var(--t-b);margin:0 0 8px;}
+.v-ok{color:var(--ok);}
+.v-no{color:var(--muscle);}
+.q-expl{font-size:var(--t-s);line-height:1.6;color:var(--ink-soft);margin:0;max-width:72ch;}
+.q-nav{display:flex;justify-content:flex-end;margin-top:24px;}
+.btn{
+  background:var(--ink);color:var(--surface);border:0;font:inherit;font-weight:500;
+  font-size:var(--t-s);padding:12px 24px;cursor:pointer;
+}
+.btn:hover{background:#2C403D;}
+.btn:focus-visible{outline:2px solid var(--axis);outline-offset:2px;}
+.res{display:flex;gap:56px;margin:0 0 36px;flex-wrap:wrap;}
+.res-n{font-family:var(--f-display);font-weight:700;font-size:var(--t-2xl);display:block;line-height:1;letter-spacing:-0.02em;}
+.res-l{font-size:var(--t-xs);color:var(--ink-faint);display:block;margin-top:7px;}
+.res-row{display:grid;grid-template-columns:170px 1fr 70px;gap:16px;align-items:center;padding:9px 0;}
+.res-cat{font-size:var(--t-s);font-weight:500;}
+.c-mov{color:var(--axis);} .c-ctrl{color:var(--ochre);} .c-fue{color:var(--muscle);} .c-tec{color:var(--ink-soft);}
+.res-bar{background:var(--surface-2);border:1px solid var(--rule-soft);height:9px;display:block;}
+.res-bar i{background:var(--ink);height:100%;display:block;}
+.res-v{font-size:var(--t-xs);color:var(--ink-faint);text-align:right;}
+.nav{display:flex;gap:26px;margin-top:22px;font-size:var(--t-s);flex-wrap:wrap;}
+.nav a{color:var(--ink-soft);text-decoration:none;border-bottom:1px solid var(--rule);padding-bottom:2px;}
+.nav a:hover{color:var(--ink);border-bottom-color:var(--muscle);}
+
+/* ---------- valoración ---------- */
+.val{padding:8px 0 72px;}
+.val > h2{font-family:var(--f-display);font-weight:600;font-size:var(--t-l);margin:0 0 6px;letter-spacing:-0.01em;}
+.val > p.sub{font-size:var(--t-s);color:var(--ink-faint);margin:0 0 26px;max-width:64ch;}
+.t-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:26px;}
+.t-tag{font-size:var(--t-xs);color:var(--axis);border:1px solid var(--axis);padding:3px 10px;line-height:1.4;}
+.proto{font-size:var(--t-s);line-height:1.6;color:var(--ink-soft);max-width:76ch;margin:0 0 4px;}
+.reflist{list-style:none;padding:0;margin:0;}
+.reflist li{
+  font-size:var(--t-s);line-height:1.55;padding:11px 0 11px 22px;
+  border-top:1px solid var(--rule-soft);position:relative;max-width:80ch;
+}
+.reflist li:first-child{border-top:1px solid var(--rule);}
+.reflist li::before{content:"";position:absolute;left:2px;top:19px;width:9px;height:1.5px;background:var(--muscle);}
+.tabla{border-collapse:collapse;margin:0 0 14px;font-size:var(--t-s);min-width:320px;}
+.tabla th{
+  text-align:left;font-weight:600;font-size:var(--t-xs);color:var(--ink-faint);
+  padding:0 28px 8px 0;border-bottom:1px solid var(--rule);
+}
+.tabla td{padding:8px 28px 8px 0;border-bottom:1px solid var(--rule-soft);color:var(--ink-soft);}
+.tabla td.k{color:var(--ink);font-weight:500;}
+.tabla-pie{font-size:var(--t-xs);color:var(--ink-faint);margin:0 0 22px;max-width:70ch;line-height:1.5;}
+.aviso{border-left:2px solid var(--ochre);padding:2px 0 2px 18px;margin:28px 0 0;}
+.aviso-t{display:block;font-size:var(--t-xs);color:var(--ochre);font-weight:600;margin-bottom:5px;}
+.aviso p{font-size:var(--t-s);line-height:1.6;color:var(--ink-soft);margin:0;max-width:76ch;}
+.fuentes{list-style:none;padding:0;margin:0;}
+.fuentes li{font-size:var(--t-s);line-height:1.5;padding:7px 0;}
+.fuentes a{color:var(--axis);text-decoration:none;border-bottom:1px solid var(--rule);}
+.fuentes a:hover{border-bottom-color:var(--axis);}
+.nota-metodo{
+  background:var(--surface);border:1px solid var(--rule);border-left:2px solid var(--ink);
+  padding:22px 26px;margin:0 0 26px;
+}
+.nota-metodo p{font-size:var(--t-s);line-height:1.6;color:var(--ink-soft);margin:0;max-width:78ch;}
+.nota-metodo p + p{margin-top:12px;}
+
+/* ---------- emoción y movimiento ---------- */
+.emo{padding:8px 0 20px;}
+.emo > h2{font-family:var(--f-display);font-weight:600;font-size:var(--t-l);margin:0 0 6px;letter-spacing:-0.01em;}
+.emo > p.sub{font-size:var(--t-s);color:var(--ink-faint);margin:0 0 26px;max-width:66ch;}
+.nivel{
+  display:inline-block;font-size:var(--t-xs);padding:2px 9px;margin-bottom:9px;
+  border:1px solid;line-height:1.4;
+}
+.n-ok{color:var(--ok);border-color:var(--ok);background:rgba(74,124,89,.07);}
+.n-mid{color:var(--ochre);border-color:var(--ochre);background:rgba(169,118,27,.07);}
+.n-no{color:var(--muscle);border-color:var(--muscle);background:rgba(156,58,56,.06);}
+.capa-intro{
+  font-family:var(--f-display);font-weight:500;font-size:var(--t-m);line-height:1.5;
+  border-left:2px solid var(--axis);padding-left:18px;margin:0 0 28px;max-width:62ch;
+}
+.dis{padding:0 0 72px;}
+.dis > h3{font-family:var(--f-display);font-weight:600;font-size:var(--t-m);margin:44px 0 6px;}
+.dis > p.sub{font-size:var(--t-s);color:var(--ink-faint);margin:0 0 22px;max-width:70ch;}
+.d-pick{background:var(--surface);border:1px solid var(--rule);padding:28px 30px;margin-bottom:8px;}
+.d-pick h4{margin-top:0;}
+.d-opts{display:grid;gap:8px;margin-bottom:6px;}
+.d-opts .opt{flex-direction:row;}
+.dq{
+  display:grid;grid-template-columns:38px 1fr;gap:20px;
+  background:var(--surface);border:1px solid var(--rule);border-top:0;
+  padding:20px 30px;
+}
+.dq-n{font-family:var(--f-display);font-weight:600;font-size:var(--t-m);color:var(--muscle);line-height:1.3;}
+.dq-t{font-weight:600;font-size:var(--t-b);margin:0 0 10px;max-width:60ch;}
+.dq-btn{
+  background:none;border:0;padding:0;font:inherit;font-size:var(--t-xs);
+  color:var(--axis);cursor:pointer;border-bottom:1px solid var(--rule);
+}
+.dq-btn:hover{border-bottom-color:var(--axis);}
+.dq-btn:focus-visible{outline:2px solid var(--axis);outline-offset:3px;}
+.dq-r{
+  font-size:var(--t-s);line-height:1.6;color:var(--ink-soft);
+  margin:14px 0 0;max-width:76ch;border-left:2px solid var(--rule);padding-left:16px;
+}
+
 @media (max-width:900px){
   .grid{grid-template-columns:repeat(2,1fr);}
   .cols,.err-head,.err{grid-template-columns:1fr;gap:8px;}
@@ -284,6 +421,16 @@ body{
   .err b{margin-bottom:2px;}
   .err{padding:14px 0;gap:4px;}
   .two{grid-template-columns:1fr;gap:28px;}
+  .opts{grid-template-columns:1fr;}
+  .res{gap:32px;}
+  .res-row{grid-template-columns:130px 1fr 60px;gap:10px;}
+  .q{padding:22px 20px;}
+  .q-obs{font-size:var(--t-m);}
+  .tabla{min-width:0;width:100%;}
+  .dq{grid-template-columns:28px 1fr;gap:12px;padding:18px 20px;}
+  .d-pick{padding:20px;}
+  .capa-intro{font-size:var(--t-b);}
+  .tabla th,.tabla td{padding-right:12px;}
   .top{padding:44px 0 30px;}
   .top h1{font-size:var(--t-2xl);}
   .wrap{padding:0 18px;}
@@ -304,12 +451,13 @@ body{
     <div class="course">
       <span>Fisioterapia · Unizar</span>
       <span>Análisis del movimiento</span>
-      <span>Fase 2 de 4</span>
+      <span>Fase 5 · emoción y movimiento</span>
     </div>
+    <nav class="nav"><a href="#patrones">Patrones</a><a href="#ejercicios-sec">Ejercicios</a><a href="#autoevaluacion">Autoevaluación</a><a href="#valoracion-sec">Valoración</a><a href="#emocion-sec">Emoción</a></nav>
   </div>
 </header>
 
-<section class="map">
+<section class="map" id="patrones">
   <div class="wrap">
     <div class="map-intro">
       <h2>Los ocho patrones</h2>
@@ -323,11 +471,44 @@ body{
   <article class="ficha" id="ficha"></article>
 </section>
 
-<section class="ejer">
+<section class="ejer" id="ejercicios-sec">
   <div class="wrap">
     <h2>Ejercicios desglosados</h2>
     <p class="sub">Siete ejercicios analizados con el mismo esquema. Se identifican los patrones que los componen y se enumera qué hace falta para ejecutarlos bien. Pulsa cualquiera para desplegarlo.</p>
     <div id="ejercicios"></div>
+  </div>
+</section>
+
+<section class="auto" id="autoevaluacion">
+  <div class="wrap">
+    <h2>Autoevaluación</h2>
+    <p class="sub">Ocho casos por sesión. Ves un error observable y decides primero qué tipo de déficit lo explica, después cuál es la causa concreta. Fíjate en el dato temporal: casi siempre es el que resuelve.</p>
+    <div id="quiz"></div>
+  </div>
+</section>
+
+<section class="val" id="valoracion-sec">
+  <div class="wrap">
+    <h2>Pruebas de valoración</h2>
+    <p class="sub">Cada requisito de las fichas tiene una prueba que lo mide. Aquí está el protocolo, los valores de referencia publicados y, sobre todo, las condiciones en las que esos valores dejan de ser aplicables.</p>
+    <div class="nota-metodo"><p>Un valor normativo describe lo que hace una población concreta medida de una forma concreta. No es un objetivo terapéutico ni un diagnóstico: dice si alguien se aleja de lo habitual en su grupo, no si necesita tratamiento.</p><p>Antes de comparar a un paciente con una tabla, comprueba tres cosas: que la muestra del estudio se parezca a tu paciente en edad, sexo y nivel de actividad; que el protocolo que has usado sea el mismo; y que la diferencia observada supere el cambio mínimo detectable de la prueba. Si falla cualquiera de las tres, el número no significa lo que parece.</p></div>
+    <div id="valoracion"></div>
+  </div>
+</section>
+
+<section class="emo" id="emocion-sec">
+  <div class="wrap">
+    <h2>Emoción y movimiento</h2>
+    <p class="sub">Tres capas ordenadas por solidez de la evidencia, etiquetadas como tales. La primera es la que puedes aplicar mañana en consulta. La tercera es la que conviene saber examinar antes de aplicarla.</p>
+    <div id="capas"></div>
+  </div>
+</section>
+
+<section class="dis">
+  <div class="wrap">
+    <h3>Taller: diseña el estudio que lo contrastaría</h3>
+    <p class="sub">En lugar de aprender la tipología, diseña la investigación que la pondría a prueba. Es el mismo hábito que entrena el módulo de autoevaluación, aplicado ahora a una afirmación teórica en vez de a un error observable. Responde primero por tu cuenta; el criterio de evaluación está oculto a propósito.</p>
+    <div id="disenio"></div>
   </div>
 </section>
 
@@ -336,8 +517,9 @@ body{
     <h2>Desarrollo del proyecto</h2>
     <div class="plan-row done"><div class="f">Fase 1</div><p>Los ocho patrones primarios con ficha completa, más dos ejercicios desglosados que demuestran el módulo de aplicación.</p></div>
     <div class="plan-row done"><div class="f">Fase 2</div><p>Catálogo de siete ejercicios desglosados. Cada patrón primario tiene ya al menos un ejemplo aplicado con criterios de ejecución, errores y progresión.</p></div>
-    <div class="plan-row"><div class="f">Fase 3</div><p>Módulo de autoevaluación: el alumno ve una ejecución, identifica el error observable y elige la causa probable entre movilidad, control o fuerza.</p></div>
-    <div class="plan-row"><div class="f">Fase 4</div><p>Vincular cada requisito con su prueba de valoración: test de lunge, elevación de pierna recta, Trendelenburg, sit-to-rise, escala de sentadilla.</p></div>
+    <div class="plan-row done"><div class="f">Fase 3</div><p>Módulo de autoevaluación con 24 casos y razonamiento en dos pasos: tipo de déficit y causa concreta, con desglose de aciertos por categoría.</p></div>
+    <div class="plan-row done"><div class="f">Fase 4</div><p>Ocho pruebas de valoración vinculadas a los requisitos de las fichas, con protocolo, valores normativos publicados, límites de interpretación y enlace a las fuentes.</p></div>
+    <div class="plan-row done"><div class="f">Fase 5</div><p>Emoción y movimiento en tres capas de evidencia, con taller de diseño de estudio para contrastar afirmaciones tipológicas en lugar de asumirlas.</p></div>
   </div>
 </section>
 
@@ -755,6 +937,478 @@ ce.querySelectorAll('.ex-btn').forEach(b=>b.addEventListener('click',()=>{
   b.setAttribute('aria-expanded',String(!open));
   b.querySelector('.ex-sign').textContent = open?'+':'–';
 }));
+
+const CAT={
+ mov:['Movilidad','El rango articular necesario no está disponible'],
+ ctrl:['Control motor','El rango existe y la fuerza también, pero no se gobierna'],
+ fue:['Fuerza o resistencia','La musculatura no sostiene la demanda'],
+ tec:['Técnica aprendida','No hay déficit: el gesto se ejecuta mal por costumbre']
+};
+
+const CASOS=[
+{ej:'Sentarse y levantarse',obs:'Los talones se despegan del suelo en el tramo final del descenso.',cat:'mov',
+ causa:'Dorsiflexión de tobillo limitada',
+ dist:['Debilidad de cuádriceps','Déficit de control lumbopélvico','Isquiosurales acortados'],
+ expl:'Mídelo con el test de lunge antes de intervenir. Si la limitación es articular, insistir en la instrucción de "baja los talones" no sirve de nada. Elevar el talón es un parche legítimo mientras se gana movilidad.'},
+
+{ej:'Flexión de brazos',obs:'La cadera cae y aparece hiperlordosis a mitad de la serie.',cat:'ctrl',
+ causa:'Déficit de control antiextensión del tronco',
+ dist:['Debilidad de pectoral mayor','Debilidad de tríceps braquial','Extensión de muñeca limitada'],
+ expl:'La regresión correcta es plano inclinado, no apoyar las rodillas. El fallo está en el tronco, y con las rodillas apoyadas el tronco deja de entrenarse: se elimina el problema en lugar de trabajarlo.'},
+
+{ej:'Mabu',obs:'El tronco se inclina progresivamente hacia delante a partir del segundo 30.',cat:'fue',
+ causa:'Resistencia isométrica de cuádriceps insuficiente',
+ dist:['Anteversión pélvica no corregida','Dorsiflexión de tobillo limitada','Glúteo medio débil'],
+ expl:'El dato decisivo es que aparece progresivamente y con la fatiga. Al inclinarse busca apoyo en la cadena posterior para descargar el cuádriceps. Reduce profundidad y tiempo antes de dar cualquier indicación postural.'},
+
+{ej:'Sentadilla búlgara',obs:'La cresta ilíaca del lado libre desciende en el punto bajo, desde la primera repetición.',cat:'ctrl',
+ causa:'Insuficiencia de glúteo medio del lado de apoyo',
+ dist:['Cuádriceps débil','Rotación de cadera limitada','Pie colocado demasiado cerca del banco'],
+ expl:'Es un signo de Trendelenburg. Que aparezca desde la primera repetición y no con la fatiga orienta a control más que a resistencia. Si solo apareciera al final de la serie, la lectura sería otra.'},
+
+{ej:'Peso muerto rumano',obs:'La barra se separa de la pierna durante el descenso.',cat:'tec',
+ causa:'El dorsal ancho no participa en mantener la barra cerca',
+ dist:['Isquiosurales acortados','Erectores espinales débiles','Extensión torácica limitada'],
+ expl:'Se corrige con una indicación, no con trabajo previo: llevar la barra activamente hacia atrás, contra el muslo, durante todo el recorrido. Suele resolverse en la misma sesión.'},
+
+{ej:'Marcha',obs:'No hay extensión de cadera en el apoyo final y aparece hiperlordosis compensatoria.',cat:'mov',
+ causa:'Psoas acortado que limita la extensión de cadera',
+ dist:['Glúteo medio insuficiente','Dorsiflexores débiles','Estrategia de seguridad ante inestabilidad'],
+ expl:'También puede deberse a un glúteo mayor débil, y conviene diferenciarlo con el test de Thomas antes de intervenir. En ambos casos el error es corregir la lumbar: la lumbar solo está supliendo lo que la cadera no da.'},
+
+{ej:'Dominada',obs:'Los hombros se elevan hacia las orejas en la posición colgada.',cat:'ctrl',
+ causa:'Ausencia de depresión escapular activa',
+ dist:['Dorsal ancho débil','Prensión insuficiente','Flexión de hombro limitada'],
+ expl:'Se trabaja con la dominada escapular aislada: colgado, deprimir la escápula sin flexionar el codo. Hasta que ese gesto no exista, la tracción se hará siempre desde el brazo.'},
+
+{ej:'Bisagra de cadera',obs:'La columna lumbar se flexiona en el último tercio del descenso, no antes.',cat:'mov',
+ causa:'Extensibilidad de isquiosurales agotada en ese rango',
+ dist:['Erectores espinales débiles','Glúteo mayor débil','Patrón motor mal aprendido'],
+ expl:'La pista es "el último tercio". Si el problema fuese de control, la flexión aparecería desde el inicio del descenso. Acorta el rango al punto donde la neutralidad se mantiene y trabaja la extensibilidad aparte.'},
+
+{ej:'Plancha lateral',obs:'La pelvis desciende progresivamente a partir del segundo 20.',cat:'fue',
+ causa:'Fatiga de oblicuos y cuadrado lumbar',
+ dist:['Serrato anterior insuficiente','Codo mal colocado','Glúteo medio débil'],
+ expl:'Aquí no hay nada que corregir: ese momento es el criterio para dar la serie por terminada. Aguantar más tiempo con la línea perdida entrena la compensación, no la estabilidad.'},
+
+{ej:'Step-up',obs:'Da un pequeño impulso con el pie de abajo antes de subir.',cat:'fue',
+ causa:'Fuerza insuficiente en la pierna que sube para la altura elegida',
+ dist:['Dorsiflexión de tobillo limitada','Miedo a perder el equilibrio','Glúteo medio débil'],
+ expl:'Es una estrategia, no un vicio. La corrección es bajar la altura del escalón hasta que la subida sea limpia, no repetir la instrucción de no impulsarse.'},
+
+{ej:'Flexión de brazos',obs:'Los codos se abren hasta formar 90° con el tronco.',cat:'tec',
+ causa:'Patrón aprendido por imitación',
+ dist:['Rotación externa de hombro limitada','Serrato anterior débil','Pectoral mayor acortado'],
+ expl:'No hay déficit detrás: se corrige explicando por qué 45° y qué coste articular tiene en el hombro la posición abierta. Es de los pocos errores que se resuelven solo con información.'},
+
+{ej:'Empuje vertical',obs:'Aparece hiperlordosis y las costillas se abren al llevar los brazos por encima de la cabeza.',cat:'mov',
+ causa:'Flexión de hombro insuficiente: la lumbar aporta el rango que falta',
+ dist:['Abdomen profundo débil','Deltoides anterior débil','Técnica de colocación mal aprendida'],
+ expl:'Compruébalo pasivamente en decúbito supino. Si tumbado tampoco alcanza la flexión completa sin despegar la lumbar, la limitación es articular y no tiene sentido corregir el gesto de pie.'},
+
+{ej:'Sentadilla',obs:'Retroversión pélvica al final del descenso, siempre en el mismo punto del recorrido.',cat:'mov',
+ causa:'Flexión de cadera limitada en ese rango',
+ dist:['Erectores espinales débiles','Dorsiflexión de tobillo limitada','Abdomen profundo débil'],
+ expl:'Que ocurra siempre en el mismo punto orienta a un tope articular. Si variase con la fatiga o la carga, la lectura sería de control. Reduce la profundidad al rango donde la pelvis se mantiene neutra.'},
+
+{ej:'Tracción',obs:'El codo se flexiona antes de que la escápula haya empezado a moverse.',cat:'tec',
+ causa:'Secuencia motora mal aprendida, con dominancia de bíceps',
+ dist:['Romboides débiles','Extensión torácica limitada','Manguito rotador insuficiente'],
+ expl:'Aísla la retracción escapular sin flexión de codo hasta que la secuencia se automatice. Es reordenar un gesto, no construir capacidad.'},
+
+{ej:'Rotación de tronco',obs:'El giro se produce en la zona lumbar en lugar de en la torácica.',cat:'mov',
+ causa:'Rotación torácica limitada: la lumbar suple lo que la torácica no da',
+ dist:['Oblicuos débiles','Multífidos insuficientes','Gesto mal aprendido'],
+ expl:'La columna lumbar dispone de entre 5 y 13° de rotación en total. Insistir en la instrucción sin ganar movilidad torácica es entrenar el error con más repeticiones.'},
+
+{ej:'Levantarse del suelo',obs:'Se incorpora en bloque, sin pasar por decúbito lateral.',cat:'ctrl',
+ causa:'Ausencia de disociación entre cintura escapular y pélvica',
+ dist:['Debilidad de oblicuos','Rotación torácica limitada','Miedo a caer'],
+ expl:'Enseña el rodar segmentario como ejercicio aislado antes de trabajar la secuencia completa. Sin disociación, la transición siempre será costosa por mucha fuerza que haya.'},
+
+{ej:'Zancada',obs:'El tronco se inclina lateralmente hacia el lado de la pierna de apoyo.',cat:'fue',
+ causa:'Compensación de Duchenne por déficit de abductores',
+ dist:['Cuádriceps débil','Rotación de cadera limitada','Propiocepción de tobillo deficitaria'],
+ expl:'Es la versión compensada del Trendelenburg: al desplazar el centro de masas sobre la cadera de apoyo reduce el brazo de palanca y la exigencia sobre el glúteo medio. Señálalo al alumno para que no lo normalice como estilo.'},
+
+{ej:'Sentarse y levantarse',obs:'Se ayuda de los reposabrazos para levantarse de la silla.',cat:'fue',
+ causa:'Déficit de fuerza en extensores de cadera y rodilla',
+ dist:['Dorsiflexión de tobillo limitada','Miedo a caer','Flexión de cadera limitada'],
+ expl:'Eleva la altura del asiento hasta que pueda levantarse sin brazos, y progresa bajándola. La altura es la variable de dosificación, no la instrucción verbal.'},
+
+{ej:'Dominada',obs:'No llega a extender el codo en la posición baja y trabaja siempre en rango medio.',cat:'ctrl',
+ causa:'Falta de control escapular en la posición colgada, que tiende a evitarse',
+ dist:['Dorsal ancho débil','Extensión de codo limitada','Prensión insuficiente'],
+ expl:'Antes de asumirlo, comprueba pasivamente la extensión de codo: si está realmente limitada, la lectura sería de movilidad. Si el rango existe, el trabajo es de colgado activo.'},
+
+{ej:'Mabu',obs:'Las rodillas colapsan hacia dentro desde el primer segundo de la postura.',cat:'ctrl',
+ causa:'Rotadores externos y glúteo medio sin capacidad de mantener la alineación',
+ dist:['Dorsiflexión de tobillo limitada','Cuádriceps débil','Pies mal colocados'],
+ expl:'"Desde el primer segundo" descarta la fatiga. Una banda por encima de las rodillas funciona como estímulo propioceptivo y suele mejorar la alineación de inmediato.'},
+
+{ej:'Peso muerto rumano',obs:'Suelta la barra por fallo de agarre antes de que la técnica se degrade.',cat:'fue',
+ causa:'La prensión es el eslabón limitante de la cadena',
+ dist:['Erectores espinales débiles','Dorsal ancho insuficiente','Isquiosurales acortados'],
+ expl:'Agarre mixto o correas, para que el estímulo llegue de verdad a la cadena posterior. Si no, se entrena el antebrazo y la cadera se queda sin dosis.'},
+
+{ej:'Marcha',obs:'Acorta la longitud del paso y aumenta el tiempo de doble apoyo.',cat:'ctrl',
+ causa:'Estrategia de seguridad ante inestabilidad percibida',
+ dist:['Tríceps sural débil','Dorsiflexión limitada','Extensión de cadera limitada'],
+ expl:'Ampliar la base y prolongar el doble apoyo es una respuesta razonable a la inseguridad. Forzar velocidad antes de mejorar el apoyo monopodal aumenta el riesgo en lugar de reducirlo.'},
+
+{ej:'Plancha lateral',obs:'El codo de apoyo queda por delante de la línea del hombro.',cat:'tec',
+ causa:'Error de colocación en la entrada',
+ dist:['Serrato anterior débil','Movilidad de hombro limitada','Oblicuos insuficientes'],
+ expl:'De aquí sale buena parte del dolor de hombro atribuido a la plancha. Se corrige en la colocación, antes de empezar el mantenimiento, y no vuelve a aparecer.'},
+
+{ej:'Flexión de brazos',obs:'Refiere dolor en la cara dorsal de la muñeca al apoyar.',cat:'mov',
+ causa:'Extensión de muñeca limitada o dolorosa en carga',
+ dist:['Serrato anterior débil','Codos demasiado abiertos','Falta de control del tronco'],
+ expl:'Apoyo en paralelas, en mancuernas o en puño cerrado. Ninguna de esas alternativas cambia el estímulo del ejercicio, así que no hay motivo para insistir en el apoyo palmar.'}
+];
+
+let qSet=[],qi=0,qPaso=1,qOpc=[],qMarca={cat:null,causa:null},qRes=[];
+const qBox=document.getElementById('quiz');
+
+function baraja(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function qStart(){
+  qSet=baraja(CASOS).slice(0,8); qi=0; qRes=[]; qCaso();
+}
+function qCaso(){
+  qPaso=1; qMarca={cat:null,causa:null};
+  const c=qSet[qi];
+  qOpc=baraja([c.causa,...c.dist]);
+  qRender();
+}
+
+function qRender(){
+  const c=qSet[qi];
+  const cats=['mov','ctrl','fue','tec'];
+  let h='<div class="q-meta"><span>Caso '+(qi+1)+' de '+qSet.length+'</span><span>'+c.ej+'</span></div>'+
+    '<p class="q-obs">'+c.obs+'</p>';
+
+  h+='<div class="q-step"><h4>Paso 1 · ¿Qué tipo de déficit explica lo que observas?</h4><div class="opts">'+
+    cats.map(k=>{
+      let st='';
+      if(qMarca.cat){ st = (k===c.cat)?'correct' : (k===qMarca.cat?'wrong':'dim'); }
+      return '<button class="opt" type="button" data-cat="'+k+'" data-state="'+st+'"'+(qMarca.cat?' disabled':'')+
+        '><b>'+CAT[k][0]+'</b><span>'+CAT[k][1]+'</span></button>';
+    }).join('')+'</div></div>';
+
+  if(qPaso>=2){
+    h+='<div class="q-step"><h4>Paso 2 · ¿Cuál es la causa concreta?</h4><div class="opts vert">'+
+      qOpc.map(o=>{
+        let st='';
+        if(qMarca.causa){ st=(o===c.causa)?'correct':(o===qMarca.causa?'wrong':'dim'); }
+        return '<button class="opt" type="button" data-causa="'+o.replace(/"/g,'&quot;')+'" data-state="'+st+'"'+(qMarca.causa?' disabled':'')+'>'+o+'</button>';
+      }).join('')+'</div></div>';
+  }
+
+  if(qPaso>=3){
+    const bien = qMarca.cat===c.cat && qMarca.causa===c.causa;
+    h+='<div class="q-feed"><p class="verdict '+(bien?'v-ok':'v-no')+'">'+
+      (bien?'Correcto en los dos pasos.':(qMarca.cat===c.cat?'Categoría acertada, causa fallada.':'Revisa el razonamiento.'))+'</p>'+
+      '<p class="q-expl">'+c.expl+'</p>'+
+      '<div class="q-nav"><button class="btn" type="button" id="qNext">'+
+      (qi<qSet.length-1?'Siguiente caso':'Ver resultados')+'</button></div></div>';
+  }
+  qBox.innerHTML='<div class="q">'+h+'</div>';
+
+  qBox.querySelectorAll('[data-cat]').forEach(b=>b.addEventListener('click',()=>{
+    qMarca.cat=b.dataset.cat; qPaso=2; qRender();
+  }));
+  qBox.querySelectorAll('[data-causa]').forEach(b=>b.addEventListener('click',()=>{
+    qMarca.causa=b.dataset.causa; qPaso=3;
+    qRes.push({cat:qSet[qi].cat, catOk:qMarca.cat===qSet[qi].cat, causaOk:qMarca.causa===qSet[qi].causa});
+    qRender();
+  }));
+  const n=document.getElementById('qNext');
+  if(n) n.addEventListener('click',()=>{ if(qi<qSet.length-1){qi++;qCaso();} else qFin(); });
+}
+
+function qFin(){
+  const nCat=qRes.filter(r=>r.catOk).length, nCausa=qRes.filter(r=>r.causaOk).length;
+  const porCat={};
+  qRes.forEach(r=>{ porCat[r.cat]=porCat[r.cat]||{n:0,ok:0}; porCat[r.cat].n++; if(r.catOk)porCat[r.cat].ok++; });
+  let h='<div class="q"><div class="q-meta"><span>Resultados</span><span>'+qRes.length+' casos</span></div>'+
+    '<div class="res"><div><span class="res-n">'+nCat+'/'+qRes.length+'</span><span class="res-l">categorías correctas</span></div>'+
+    '<div><span class="res-n">'+nCausa+'/'+qRes.length+'</span><span class="res-l">causas concretas correctas</span></div></div>'+
+    '<h4>Desglose por tipo de déficit</h4>';
+  Object.keys(porCat).forEach(k=>{
+    const p=porCat[k], pc=Math.round(p.ok/p.n*100);
+    h+='<div class="res-row"><span class="res-cat c-'+k+'">'+CAT[k][0]+'</span>'+
+       '<span class="res-bar"><i style="width:'+pc+'%"></i></span>'+
+       '<span class="res-v">'+p.ok+' de '+p.n+'</span></div>';
+  });
+  h+='<p class="q-expl" style="margin-top:24px">Si fallas sobre todo en distinguir control de fuerza, vuelve a los casos fijándote en el dato temporal: lo que aparece con la fatiga apunta a resistencia; lo que está presente desde la primera repetición, a control.</p>'+
+     '<div class="q-nav"><button class="btn" type="button" id="qAgain">Repetir con otros casos</button></div></div>';
+  qBox.innerHTML=h;
+  document.getElementById('qAgain').addEventListener('click',qStart);
+}
+qStart();
+
+
+const TESTS=[
+{
+ id:'wblt', nombre:'Test de lunge en carga (WBLT)',
+ valora:'Dorsiflexión de tobillo en cadena cerrada',
+ pats:['Sentarse y levantarse','Marcha','Zancada'],
+ proto:'De pie frente a la pared, con el pie a evaluar alineado perpendicular a ella. Se flexiona la rodilla hasta contactar con la pared sin despegar el talón, alejando el pie progresivamente hasta el límite. Se mide en centímetros la distancia del primer dedo a la pared, o en grados la inclinación de la tibia con inclinómetro.',
+ ref:[
+  'Umbral clínico de uso habitual: por encima de 9–10 cm, o de 40–42°.',
+  'Jugadores de baloncesto de 12 a 16 años: media de 10,68 cm (DE 2,44), con rango de normalidad entre 8,44 y 13,11 cm.',
+  'Un estudio multicéntrico de 2026 en 899 adultos de Canadá, España e Irán establece referencias en siete franjas de edad. El rendimiento decae progresivamente y la caída se acentúa a partir de los 60–69 años; los hombres presentan valores ligeramente superiores a las mujeres.',
+  'Entre extremidades no se observan diferencias significativas en adultos sanos, aunque algunos trabajos describen asimetrías de hasta 1,5 cm midiendo dedo-pared.'],
+ aviso:'La fiabilidad es buena (CCI intraobservador 0,65–0,99; interobservador 0,80–0,99), pero el valor absoluto depende del método: los centímetros dedo-pared y los grados de inclinación tibial no son intercambiables. Elige uno y mantenlo en las reevaluaciones.',
+ fuentes:[['Valores normativos internacionales del WBLT, 899 adultos (2026)','https://pubmed.ncbi.nlm.nih.gov/41723909/'],['Valores de referencia en jugadores jóvenes de baloncesto','https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9517286/'],['Fiabilidad y asimetrías interextremidad','https://pmc.ncbi.nlm.nih.gov/articles/PMC7015029/']]
+},
+{
+ id:'ake', nombre:'Extensión activa de rodilla (AKE)',
+ valora:'Extensibilidad de isquiosurales',
+ pats:['Bisagra de cadera','Marcha'],
+ proto:'Decúbito supino con cadera y rodilla a 90° y la pelvis estabilizada. Se extiende activamente la rodilla hasta notar tensión. Con goniómetro se mide el déficit de extensión respecto a los 0°, tomando como referencias el trocánter mayor, el cóndilo femoral lateral y el maléolo lateral.',
+ ref:[
+  'Normativo en universitarios de 18 a 24 años: 17,8° ± 9,1° en hombres y 13,4° ± 6° en mujeres.',
+  'Punto de corte para acortamiento: por encima de 33,0° en hombres y de 23,4° en mujeres.',
+  'Versión pasiva (PKE): 17,1° ± 9,1° y 9,8° ± 5,7°, con cortes en 32,2° y 19,2° respectivamente.',
+  'Un trabajo posterior sitúa el corte de media menos 1 DE en 33,5° para hombres y 28,0° para mujeres.'],
+ aviso:'El criterio clásico de "más de 20° indica acortamiento", propuesto por Gajdosik y Lusin en 1983, se sigue usando de forma masiva sin respaldo empírico, y clasificaría como acortada a buena parte de la población sana, especialmente a los hombres. Es un buen ejemplo para discutir en clase: un valor de referencia heredado que se repite sin comprobarlo.',
+ fuentes:[['Valores normativos y puntos de corte para el acortamiento isquiosural','https://pmc.ncbi.nlm.nih.gov/articles/PMC6158462/'],['Puntos de corte óptimos del AKE (2024)','https://www.sciencedirect.com/science/article/abs/pii/S1360859224004662']]
+},
+{
+ id:'upst', nombre:'Apoyo monopodal cronometrado (UPST)',
+ valora:'Control postural y estabilidad en apoyo monopodal',
+ pats:['Zancada','Marcha','Levantarse del suelo'],
+ proto:'De pie, manos en las caderas, se eleva un pie sin que contacte con la pierna de apoyo. Se cronometra hasta que los brazos se despegan, el pie toca el suelo o la otra pierna, o el pie de apoyo se desplaza. Se registra el mejor de tres intentos, en dos condiciones: ojos abiertos y ojos cerrados.',
+ ref:[
+  'Muestra de 549 sujetos sanos de 18 años en adelante, repartidos en seis franjas: 18–39, 40–49, 50–59, 60–69, 70–79 y 80 o más.',
+  'El rendimiento desciende de forma significativa con la edad en ambas condiciones y no depende del sexo.',
+  'Con ojos cerrados, el grupo de 18 a 39 años promedia 13,1 segundos.',
+  'Fiabilidad interobservador excelente para el mejor de tres intentos: CCI 0,994 con ojos abiertos y 0,998 con ojos cerrados.',
+  'Un punto de corte de 30 segundos predice caídas con sensibilidad del 95% y especificidad del 58%.',
+  'No sostener 10 segundos se asocia a peor supervivencia en personas de mediana edad y mayores.'],
+ aviso:'En adultos jóvenes la condición de ojos abiertos tiene efecto techo y no discrimina nada. Si vas a usar esta prueba con población sana y joven, mide con ojos cerrados o no midas.',
+ fuentes:[['Valores normativos del UPST con ojos abiertos y cerrados (Springer et al., 2007)','https://pubmed.ncbi.nlm.nih.gov/19839175/'],['Ficha del test en la base RehabMeasures','https://www.sralab.org/rehabilitation-measures/timed-unipedal-stance-test-single-leg-support-one-leg-stance-test']]
+},
+{
+ id:'cst30', nombre:'Sentarse y levantarse en 30 segundos (30CST)',
+ valora:'Fuerza funcional de miembro inferior',
+ pats:['Sentarse y levantarse','Step-up'],
+ proto:'Silla sin reposabrazos de unos 43 cm de altura, apoyada contra la pared. Brazos cruzados sobre el pecho. Se cuentan las repeticiones completas en 30 segundos; si al terminar el tiempo el paciente ha superado la mitad del recorrido, cuenta como repetición completa.',
+ tabla:{cab:['Edad','Hombres','Mujeres'],filas:[['60–64','menos de 14','menos de 12'],['65–69','menos de 12','menos de 11'],['70–74','menos de 12','menos de 10'],['75–79','menos de 11','menos de 10'],['80–84','menos de 10','menos de 9'],['85–89','menos de 8','menos de 8'],['90–94','menos de 7','menos de 4']],pie:'Puntuaciones por debajo de la media de su franja de edad, según la tabla del programa STEADI a partir de los datos de Rikli y Jones.'},
+ ref:[
+  'Muestra normativa de 7.183 adultos de 60 a 94 años, reclutados en 267 centros.',
+  'Correlación fuerte con la repetición máxima en prensa de piernas (r = 0,77).',
+  'Correlación moderada con la fuerza isocinética de extensores de cadera (r = 0,33) y de rodilla (r = 0,44).'],
+ aviso:'Si el paciente usa los brazos, la prueba no es válida y se registra como cero. La altura de la silla modifica el resultado, así que hay que mantenerla constante entre reevaluaciones o el cambio medido será del mobiliario, no del paciente.',
+ fuentes:[['Valores normativos y validez del 30CST en adultos jóvenes sanos','https://pmc.ncbi.nlm.nih.gov/articles/PMC9340829/'],['Ficha del test en la base RehabMeasures','https://www.sralab.org/rehabilitation-measures/30-second-sit-stand-test']]
+},
+{
+ id:'srt', nombre:'Sitting-Rising Test (SRT)',
+ valora:'Capacidad de sentarse en el suelo y levantarse',
+ pats:['Levantarse del suelo'],
+ proto:'Descalzo, con ropa cómoda y espacio libre. Se pide sentarse en el suelo y después levantarse usando el menor apoyo posible. Cada acción se puntúa sobre 5, restando un punto por cada apoyo utilizado (mano, antebrazo, rodilla o lateral de la pierna) y medio punto por inestabilidad evidente. La suma va de 0 a 10. Dura menos de dos minutos y no necesita material.',
+ ref:[
+  'Cohorte de 2.002 adultos de 51 a 80 años con seguimiento mediano de 6,3 años: cada punto de aumento en la puntuación se asoció a un 21% más de supervivencia.',
+  'Razones de riesgo ajustadas por edad, sexo e IMC de 5,44, 3,44 y 1,84 al pasar de las puntuaciones más bajas a las más altas.',
+  'Cohorte posterior de 4.282 adultos de 46 a 75 años seguidos una mediana de 12,3 años: mortalidad del 3,7% con puntuación de 10, del 11,1% con 8 y del 42,1% en el grupo de puntuación más baja (0 a 4).',
+  'Menos del 8% de las personas mayores de 55 años alcanza la puntuación máxima.'],
+ aviso:'Es una prueba de cribado, no diagnóstica, y lo que describe es una asociación, no una relación causal. Su valor docente está en que integra fuerza, movilidad, equilibrio y composición corporal en un único gesto, lo que la convierte en el mejor ejemplo del patrón integrador.',
+ fuentes:[['Capacidad de sentarse y levantarse del suelo como predictor de mortalidad (Brito et al.)','https://pubmed.ncbi.nlm.nih.gov/23242910/'],['El SRT predice mortalidad natural y cardiovascular (Araújo et al., 2025)','https://academic.oup.com/eurjpc/advance-article/doi/10.1093/eurjpc/zwaf325/8163161']]
+},
+{
+ id:'marcha-vel', nombre:'Velocidad de marcha confortable',
+ valora:'Rendimiento global de la locomoción',
+ pats:['Marcha'],
+ proto:'Se cronometra al paciente caminando a su ritmo habitual sobre una distancia conocida, habitualmente entre 4 y 10 metros, dejando espacio adicional de aceleración y frenado a ambos lados. Se toma la media de dos o tres pasadas.',
+ ref:[
+  'Metaanálisis de 41 estudios y 23.111 adultos sanos: la media va de 143,4 cm/s en hombres de 40 a 49 años hasta 94,3 cm/s en mujeres de 80 a 99.',
+  'En una muestra de 230 voluntarios, la velocidad confortable osciló entre 127,2 cm/s (mujeres en la setentena) y 146,2 cm/s (hombres en la cuarentena).',
+  'La velocidad máxima en esa misma muestra fue de 174,9 cm/s (mujeres en la setentena) a 253,3 cm/s (hombres en la veintena).'],
+ aviso:'Estas referencias dejan de ser aplicables si la marcha se mide en distancias muy cortas contando desde la orden de salida, o si el recorrido incluye un giro. Es un detalle metodológico que invalida más comparaciones de las que parece.',
+ fuentes:[['Velocidad normal de marcha: metaanálisis descriptivo (Bohannon y Andrews, 2011)','https://www.sciencedirect.com/science/article/abs/pii/S0031940611000307'],['La velocidad de marcha varía con la edad y el sexo pero no con la región geográfica','https://www.sciencedirect.com/science/article/pii/S1836955322001114']]
+},
+{
+ id:'mcgill', nombre:'Batería de resistencia de tronco de McGill',
+ valora:'Resistencia isométrica del tronco y equilibrio entre grupos',
+ pats:['Rotación y antirrotación','Empuje'],
+ proto:'Tres pruebas cronometradas hasta la pérdida de la posición: flexores de tronco en sedestación con el tronco a 60°, extensores mediante el test de Biering-Sørensen, y puente lateral a cada lado. Lo relevante no son los tiempos absolutos sino las relaciones entre ellos.',
+ ref:[
+  'Flexión frente a extensión: la relación debe ser menor que 1,0.',
+  'Puente lateral derecho frente a izquierdo: no debe alejarse más de 0,05 del valor equilibrado de 1,0.',
+  'Puente lateral de cada lado frente a extensión: la relación debe ser menor que 0,75.'],
+ aviso:'Un trabajo de 2022 en mujeres físicamente activas cuestiona que el puente lateral aísle los flexores laterales del tronco: encontró fatiga y activación del deltoides comparables a las de los oblicuos, y el rendimiento se predecía en buena parte por la masa corporal y la altura del tronco. La consistencia entre sesiones es alta (CCI 0,81) pero el error típico ronda los 11 segundos, así que la prueba no sirve para detectar cambios pequeños.',
+ fuentes:[['Protocolo de la batería de resistencia de tronco y criterios de relación','https://contentcdn.eacefitness.com/assets/certification/ace-answers/forms/pt/19_Mcgills_Torso_Muscular_Endurance_Test_Battery_Protocol.pdf'],['¿Es válido y fiable el puente lateral para valorar los flexores laterales del tronco?','https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9312545/']]
+},
+{
+ id:'rot-torac', nombre:'Rotación torácica',
+ valora:'Rotación disponible en el segmento torácico',
+ pats:['Rotación y antirrotación','Tracción','Empuje'],
+ proto:'Hay varias técnicas. Las más usadas son la rotación en sedestación o en medio arrodillado con una barra sobre los hombros, colocada por delante o por detrás, y la rotación con bloqueo lumbar en cuadrupedia sentado sobre los talones. Se mide con inclinómetro o con aplicación de brújula.',
+ ref:[
+  'Las cinco técnicas estudiadas muestran fiabilidad intra e interobservador buena, con CCI por encima de 0,85.',
+  'Error estándar de medida inferior a 3° y cambio mínimo detectable menor de 6° en todas ellas.',
+  'La posición con la barra por delante permite entre 12 y 14° más de rotación que la misma posición con la barra por detrás.',
+  'Para el test con bloqueo lumbar, el cambio mínimo detectable en adultos jóvenes sanos es de 5,5°.'],
+ aviso:'El número depende por completo de la técnica empleada. Comparar una medición hecha con barra delante contra otra hecha con barra detrás produce diferencias de más de 12° que no reflejan ningún cambio real del paciente. Es el error metodológico más frecuente con esta medida.',
+ fuentes:[['Fiabilidad de cinco técnicas de medición de la rotación torácica','https://meridian.allenpress.com/jat/article/47/1/52/110771/Reliability-of-Thoracic-Spine-Rotation-Range-of'],['Fiabilidad y validez de la aplicación de brújula para medir rotación torácica','https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5845564/']]
+}
+];
+
+const cv=document.getElementById('valoracion');
+cv.innerHTML=TESTS.map(t=>{
+  let cuerpo='<div class="t-tags">'+t.pats.map(p=>'<span class="t-tag">'+p+'</span>').join('')+'</div>'+
+   '<h4>Protocolo</h4><p class="proto">'+t.proto+'</p>'+
+   '<h4>Valores de referencia</h4>';
+  if(t.tabla){
+    cuerpo+='<table class="tabla"><thead><tr>'+t.tabla.cab.map(c=>'<th>'+c+'</th>').join('')+'</tr></thead><tbody>'+
+     t.tabla.filas.map(f=>'<tr>'+f.map((c,i)=>'<td'+(i?'':' class="k"')+'>'+c+'</td>').join('')+'</tr>').join('')+
+     '</tbody></table><p class="tabla-pie">'+t.tabla.pie+'</p>';
+  }
+  cuerpo+='<ul class="reflist">'+t.ref.map(r=>'<li>'+r+'</li>').join('')+'</ul>'+
+   '<div class="aviso"><span class="aviso-t">Cómo leerlo</span><p>'+t.aviso+'</p></div>'+
+   '<h4>Fuentes</h4><ul class="fuentes">'+
+   t.fuentes.map(f=>'<li><a href="'+f[1]+'" target="_blank" rel="noopener">'+f[0]+'</a></li>').join('')+'</ul>';
+  return '<div class="ex" data-open="false"><button class="ex-btn" type="button" aria-expanded="false">'+
+   '<span><span class="ex-t">'+t.nombre+'</span><span class="ex-p">'+t.valora+'</span></span>'+
+   '<span class="ex-sign">+</span></button><div class="ex-body">'+cuerpo+'</div></div>';
+}).join('');
+
+cv.querySelectorAll('.ex-btn').forEach(b=>b.addEventListener('click',()=>{
+  const box=b.parentElement, open=box.dataset.open==='true';
+  box.dataset.open=String(!open);
+  b.setAttribute('aria-expanded',String(!open));
+  b.querySelector('.ex-sign').textContent = open?'+':'–';
+}));
+
+
+const CAPAS=[
+{
+ id:'capa1', nivel:'Establecido', nc:'n-ok',
+ titulo:'El miedo cambia el movimiento',
+ sub:'Dirección emoción → movimiento',
+ intro:'Esta es la relación bien documentada, y va en dirección contraria a la que proponen las tipologías. No consiste en leer la emoción en la postura, sino en reconocer que un estado afectivo concreto, el miedo, produce cambios motores medibles y reversibles.',
+ puntos:[
+  'Modelo de evitación por miedo de Vlaeyen y Linton: ante el dolor, la persona adopta conductas de protección para evitar el movimiento que podría dolerle. Esas conductas explican buena parte de la cronificación.',
+  'Las revisiones sistemáticas no encuentran relación clara entre la cinemática del tronco y la intensidad del dolor, pero sí entre esa cinemática y los miedos relacionados con el dolor y el catastrofismo. El dolor no explica el movimiento; el miedo sí.',
+  'En personas con lumbalgia recurrente, el miedo al movimiento medido con la escala Tampa se asoció positivamente con la rigidez del tronco ante una perturbación inesperada.',
+  'En trabajadores con lumbalgia, la velocidad angular máxima de extensión de tronco al levantar un objeto fue menor que en controles sanos. Ningún participante refirió dolor durante la prueba, y el análisis de mediación mostró que la escala Tampa mediaba por completo la relación entre la intensidad de dolor de las semanas previas y esa reducción de velocidad.',
+  'El miedo específico a una tarea concreta se asocia mejor con las diferencias cinemáticas que la kinesiofobia general. Preguntar si le da miedo moverse rinde menos que preguntar si le da miedo ese gesto en particular.',
+  'En personas sanas sin dolor, la amenaza postural por altura produce de forma consistente una respuesta de rigidización: menor amplitud y mayor frecuencia de oscilación del centro de presiones al estar de pie, y menor velocidad al caminar.',
+  'Un matiz que da para discutir en clase: en un estudio comparativo, los niños mostraron reacción emocional ante la altura sin traducirla en adaptación motora, y los adultos jóvenes reaccionaron motrizmente sin reportar cambio emocional. La correspondencia entre lo que se siente y lo que se mueve no es automática.'],
+ cierre:'Consecuencia práctica: esto añade una quinta categoría de causa a las cuatro del módulo de autoevaluación. Un error de ejecución puede deberse a movilidad, control, fuerza, técnica, o a que el paciente tiene miedo de ese movimiento concreto. Y esa quinta no se corrige con ejercicio correctivo.',
+ fuentes:[
+  ['El miedo al movimiento se relaciona con la rigidez del tronco en la lumbalgia','https://pmc.ncbi.nlm.nih.gov/articles/PMC3694850/'],
+  ['Análisis cinemático del movimiento alterado por generalización del miedo al dolor','https://pubmed.ncbi.nlm.nih.gov/34534260/'],
+  ['El miedo específico a la tarea, no la kinesiofobia general, se asocia a diferencias cinemáticas','https://journals.lww.com/painrpts/fulltext/10.1097/pr9.0000000000001025~task-specific-fear-rather-than-general-kinesiophobia'],
+  ['Amenaza postural por altura y equilibrio: revisión sistemática con metaanálisis','https://pubmed.ncbi.nlm.nih.gov/41458879/'],
+  ['Reactividad emocional y adaptación motora en niños y adultos jóvenes','https://pubmed.ncbi.nlm.nih.gov/40842928/']]
+},
+{
+ id:'capa2', nivel:'Plausible, sin respaldo suficiente', nc:'n-mid',
+ titulo:'La postura cambia la emoción',
+ sub:'Dirección movimiento → emoción',
+ intro:'La dirección inversa es intuitiva y tiene tradición teórica, desde James y Lange. Pero cuando se ha puesto a prueba con muestras grandes se ha sostenido mucho peor de lo que se esperaba.',
+ puntos:[
+  'El caso más conocido es el de las posturas de poder. En 2010 se publicó que mantener una postura expansiva durante dos minutos aumentaba la testosterona, reducía el cortisol e incrementaba la tolerancia al riesgo. La muestra era de 42 personas.',
+  'Una replicación en 2015 con 200 participantes no encontró efectos hormonales ni conductuales. Sí se replicó la sensación subjetiva de poder, que es un autoinforme. La distinción importa: lo que no se sostuvo fue la parte fisiológica y conductual.',
+  'Se comprobó después que los hallazgos originales eran muy sensibles a las decisiones de análisis: con otros criterios de exclusión o procedimientos estadísticos dejaban de ser significativos.',
+  'En 2016 la primera autora del trabajo original declaró públicamente que ya no creía que el efecto existiera.',
+  'Un análisis de curva p publicado en 2017 concluyó que los efectos conductuales y fisiológicos de las posturas expansivas frente a las contractivas deben tratarse como hipótesis que hoy carecen de respaldo empírico.',
+  'Hay una línea más prometedora y menos explorada: modificar el patrón de marcha mediante biofeedback, haciendo que la persona camine con un patrón más alegre o más deprimido, cambió el sesgo de memoria afectiva. Es un estudio pequeño y pendiente de replicación, pero plantea la hipótesis en términos medibles.'],
+ cierre:'Nada de esto demuestra que la postura no influya en el estado afectivo. Demuestra que las pruebas disponibles no bastan para afirmarlo. Son dos posiciones distintas, y la segunda es la que conviene enseñar.',
+ fuentes:[
+  ['Análisis de curva p de la evidencia sobre posturas de poder (Simmons y Simonsohn, 2017)','https://urisohn.com/sohn_files/wp/wordpress/wp-content/uploads/2019/01/Power-Posing-p-curve-published.pdf'],
+  ['La replicación con muestra amplia no halló efectos hormonales ni conductuales','https://www.researchgate.net/publication/274093025_Assessing_the_Robustness_of_Power_Posing_No_Effect_on_Hormones_and_Risk_Tolerance_in_a_Large_Sample_of_Men_and_Women'],
+  ['Revisión de los efectos de las posturas de poder y otras posturas corporales','https://compass.onlinelibrary.wiley.com/doi/10.1111/spc3.12559'],
+  ['Una década de posturas de poder: dónde estamos','https://www.bps.org.uk/psychologist/decade-power-posing-where-do-we-stand']]
+},
+{
+ id:'capa3', nivel:'Sin validación empírica', nc:'n-no',
+ titulo:'Las tipologías psicocorporales',
+ sub:'GDS y Mézières como objeto de estudio, no como herramienta diagnóstica',
+ intro:'Aquí conviene separar dos cosas que suelen ir juntas. La descripción de cadenas miofasciales y de compensaciones a distancia tiene décadas de observación clínica detrás y resulta útil como marco de exploración. La atribución de un perfil psicocomportamental a cada cadena es otra cosa, y es la que se examina en este apartado.',
+ puntos:[
+  'Qué afirman: el método agrupa la musculatura en seis familias según su situación y la dirección de sus fibras, y sostiene que cada una se corresponde con una expresión psicocomportamental. La postura se lee, en palabras de su autora, como parte de la historia de la persona.',
+  'De dónde viene: Godelieve Denys-Struyf se formó primero como retratista en la Real Academia de Bellas Artes de Bruselas, entre 1946 y 1951, y cursó fisioterapia entre 1958 y 1961. Desarrolló el método entre 1960 y 1970 a partir de la observación morfológica de miles de pacientes, influida por Mézières, por Piret y Béziers, por Kabat y Bobath, y por la medicina tradicional china.',
+  'Ese origen no lo invalida. La observación clínica prolongada es una fuente legítima de hipótesis. Lo que no es, es una prueba.',
+  'Qué se ha investigado: existe una tesis doctoral española con el primer ensayo aleatorizado y controlado del método en lumbalgia inespecífica, realizado en centros de atención primaria de la Comunidad de Madrid entre 2005 y 2008. Y un ensayo piloto de viabilidad noruego de 2023 en lumbalgia crónica con degeneración discal, que halló una mejora media de 8,7 puntos en el índice de Oswestry frente a un empeoramiento de 3,7 puntos en el grupo control, y concluyó que un ensayo completo sería viable.',
+  'El punto crítico: esos estudios evalúan si el tratamiento reduce dolor y discapacidad. Ninguno pone a prueba la afirmación tipológica. Que una intervención funcione no valida la teoría que la inspiró, porque el efecto puede venir del ejercicio, del contacto manual, del tiempo dedicado o de la expectativa.',
+  'Encuadre metodológico: sostener que la forma corporal predice el carácter es un sistema de psicología constitucional, de la misma familia que las tipologías de Kretschmer y Sheldon. Esa tradición fue abandonada por la psicología por falta de validación, no por falta de interés.',
+  'El riesgo clínico concreto: un fisioterapeuta que cree leer el perfil psicológico del paciente en su postura hace atribuciones para las que no está cualificado y que el paciente no ha solicitado. Además son muy vulnerables al sesgo de confirmación, porque es difícil refutar una lectura que se ajusta a lo que el terapeuta ya había decidido ver.'],
+ cierre:'La postura de este material no es que las tipologías sean falsas. Es que no han sido contrastadas, y que enseñarlas como si lo estuvieran instala un hábito de razonamiento que después se aplica a otras cosas. El ejercicio de abajo propone la alternativa: en vez de aprender la tipología, diseñar el estudio que la pondría a prueba.',
+ fuentes:[
+  ['Ensayo piloto de viabilidad del tratamiento GDS en lumbalgia crónica (2023)','https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10022086/'],
+  ['Tesis doctoral: fisioterapia en la lumbalgia mecánica con el método GDS','https://produccioncientifica.ucm.es/documentos/5d1df62029995204f76620e4']]
+}
+];
+
+const AFIRM=[
+ {t:'La tipología corporal observable predice el perfil psicocomportamental de la persona.',
+  trampa:'La trampa principal está en la fiabilidad interobservador. Si dos fisioterapeutas formados en el método no clasifican igual a la misma persona, no queda nada que correlacionar y el resto del estudio sobra.'},
+ {t:'Tratar la cadena muscular correspondiente al perfil del paciente reduce el dolor lumbar más que un tratamiento estándar.',
+  trampa:'La trampa principal es que un resultado positivo no validaría la tipología. Para aislarla necesitas un grupo que reciba exactamente el mismo tratamiento pero asignado a una cadena deliberadamente incorrecta. Si mejora igual, el efecto no viene de la clasificación.'},
+ {t:'Mantener una postura erguida durante dos minutos mejora el estado de ánimo.',
+  trampa:'La trampa principal está en la medida. El autoinforme de estado de ánimo es muy sensible a la demanda experimental: si el participante intuye la hipótesis, la confirma sin querer.'}
+];
+
+const DISENO=[
+ ['Formula la hipótesis en términos falsables',
+  'Una hipótesis falsable especifica qué resultado concreto sería incompatible con ella. "La postura refleja la historia emocional" no lo es, porque ningún dato la contradice. "Dos evaluadores clasificarán la tipología con una concordancia superior al azar, y esa clasificación predecirá la puntuación en un cuestionario de personalidad validado" sí lo es.'],
+ ['Elige el diseño',
+  'Pregúntate si buscas asociación o causalidad. Para una afirmación tipológica basta un estudio transversal con dos medidas independientes. Para una afirmación de eficacia hace falta un ensayo aleatorizado. Para afirmar que la postura causa un cambio de estado, un diseño experimental con asignación aleatoria a condiciones posturales.'],
+ ['Define la muestra',
+  'Justifica el tamaño con un cálculo a priori, no por conveniencia. Especifica criterios de inclusión y exclusión, y pregúntate si la muestra permite generalizar. Reclutar en una clínica de fisioterapia introduce sesgo de entrada: quien acude ya tiene un problema y probablemente una postura antálgica.'],
+ ['Mide o manipula la variable independiente',
+  'Si vas a clasificar tipologías, primero tienes que demostrar que dos evaluadores independientes coinciden. Sin fiabilidad interobservador aceptable, cualquier correlación posterior carece de sentido. Reporta el coeficiente de correlación intraclase o el kappa, no una impresión clínica.'],
+ ['Elige la variable dependiente y su instrumento',
+  'Un cuestionario validado en tu idioma y población, con propiedades psicométricas publicadas. No vale construir una escala a medida que pregunte justo lo que la teoría predice: eso garantiza el resultado antes de empezar.'],
+ ['Resuelve el cegamiento y el control',
+  'Quien clasifica la tipología no debe conocer los resultados psicológicos, y a la inversa. En un ensayo de eficacia necesitas además un control activo, no una lista de espera: si comparas contra no hacer nada, estás midiendo atención y expectativa, no el método.'],
+ ['Di qué resultado te haría abandonar la hipótesis',
+  'Si no puedes responder a esto, la hipótesis no es científica. Defínelo antes de recoger un solo dato y por escrito. El registro previo del protocolo existe exactamente para impedir que el criterio se ajuste al resultado una vez visto.']
+];
+
+const ce2=document.getElementById('capas');
+ce2.innerHTML=CAPAS.map(c=>{
+ let b='<p class="capa-intro">'+c.intro+'</p><ul class="reflist">'+
+  c.puntos.map(p=>'<li>'+p+'</li>').join('')+'</ul>'+
+  '<div class="aviso"><span class="aviso-t">Qué llevarse</span><p>'+c.cierre+'</p></div>'+
+  '<h4>Fuentes</h4><ul class="fuentes">'+
+  c.fuentes.map(f=>'<li><a href="'+f[1]+'" target="_blank" rel="noopener">'+f[0]+'</a></li>').join('')+'</ul>';
+ return '<div class="ex" data-open="false"><button class="ex-btn" type="button" aria-expanded="false">'+
+  '<span><span class="nivel '+c.nc+'">'+c.nivel+'</span><span class="ex-t">'+c.titulo+'</span>'+
+  '<span class="ex-p">'+c.sub+'</span></span><span class="ex-sign">+</span></button>'+
+  '<div class="ex-body">'+b+'</div></div>';
+}).join('');
+
+ce2.querySelectorAll('.ex-btn').forEach(b=>b.addEventListener('click',()=>{
+ const box=b.parentElement, open=box.dataset.open==='true';
+ box.dataset.open=String(!open);
+ b.setAttribute('aria-expanded',String(!open));
+ b.querySelector('.ex-sign').textContent = open?'+':'–';
+}));
+
+let afi=0;
+const cd=document.getElementById('disenio');
+function dRender(){
+ cd.innerHTML='<div class="d-pick"><h4>Elige la afirmación que vas a contrastar</h4><div class="d-opts">'+
+  AFIRM.map((a,i)=>'<button class="opt" type="button" data-a="'+i+'" data-state="'+(i===afi?'correct':'')+'">'+a.t+'</button>').join('')+
+  '</div><div class="aviso"><span class="aviso-t">Dónde suele fallar este diseño</span><p>'+AFIRM[afi].trampa+'</p></div></div>'+
+  DISENO.map((d,i)=>'<div class="dq"><div class="dq-n">'+(i+1)+'</div><div class="dq-c">'+
+   '<p class="dq-t">'+d[0]+'</p>'+
+   '<button class="dq-btn" type="button" data-d="'+i+'">Ver qué debe contener una buena respuesta</button>'+
+   '<p class="dq-r" hidden>'+d[1]+'</p></div></div>').join('');
+ cd.querySelectorAll('[data-a]').forEach(b=>b.addEventListener('click',()=>{afi=+b.dataset.a;dRender();}));
+ cd.querySelectorAll('.dq-btn').forEach(b=>b.addEventListener('click',()=>{
+  const p=b.nextElementSibling;
+  p.hidden=!p.hidden;
+  b.textContent=p.hidden?'Ver qué debe contener una buena respuesta':'Ocultar';
+ }));
+}
+dRender();
+
 </script>
 </body>
 </html>
